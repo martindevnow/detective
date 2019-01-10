@@ -1,5 +1,16 @@
 # detective
 
+
+
+## ToDo:
+
+change
+`            echo 'export IMAGE_NAME=detective' >> $BASH_ENV` 
+to 
+`            echo "export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')" >> $BASH_ENV`
+but extract the package name..
+
+
 ## Project setup
 ```
 npm install
@@ -37,3 +48,6 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+

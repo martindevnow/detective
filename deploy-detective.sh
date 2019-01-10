@@ -16,12 +16,12 @@ DOCKER_IMAGE="martindevnow/${1}"
 URL_SUBDOMAIN=$2
 
 if [[ $URL_SUBDOMAIN == "master" ]] ; then
-    URL_SUBDOMAIN="qa"
+    URL_SUBDOMAIN="detective-qa"
 elif [[ $URL_SUBDOMAIN == "develop" ]] ; then
-    URL_SUBDOMAIN="dev"
+    URL_SUBDOMAIN="detective-dev"
 fi
 
-CONTAINER_NAME="vue-docker-cicd-${URL_SUBDOMAIN}"
+CONTAINER_NAME="detective-${URL_SUBDOMAIN}"
 
 echo "========"
 echo "Docker Image   = ${DOCKER_IMAGE}"
