@@ -1,0 +1,25 @@
+version: '3.2'
+services:
+  web:
+    image: martindevnow/${IMAGE_NAME}:${TAG}
+    tty: true
+    environment:
+      - NODE_ENV=production
+    command: >
+      http-server -p 80 /app
+  cypress:
+    depends_on: 
+      - web
+    environment:
+      - CYPRESS_baseUrl=http://web:80/
+      - CYPRESS_browser=chrome
+      - CYPRESS_screenshotsFolder=/results/${TAG}/screenshots
+      - CYPRESS_videosFolder=/results/$TAG/videos
+    build:
+      context: .
+      # target: e2eBuild    # Need support for v3.4 (Docker-Compose)
+      dockerfile: ./cypress/Dockerfile.cypress
+    volumes: 
+      - type: bind
+        source: ./results
+        target: /results
