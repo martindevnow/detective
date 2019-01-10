@@ -15,4 +15,5 @@ RUN npm install -g http-server-ssl
 WORKDIR /app
 COPY --from=builder /usr/src/app/dist .
 EXPOSE 80
+EXPOSE 443
 CMD [ "http-server-ssl", "-p", "443", "-S", "/app" ]

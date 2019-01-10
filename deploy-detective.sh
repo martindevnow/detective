@@ -38,6 +38,6 @@ else echo "... container not running"
 fi
 
 echo "Starting Vue Docker CICD Project using Docker Image name: $DOCKER_IMAGE"
-docker run -e VIRTUAL_HOST=${URL_SUBDOMAIN}.martindevnow.com -e VIRTUAL_PROTO=https -e VIRTUAL_PORT=443 -d --rm=true --name ${CONTAINER_NAME} ${DOCKER_IMAGE}
+docker run --expose 443 -e VIRTUAL_HOST=${URL_SUBDOMAIN}.martindevnow.com -e VIRTUAL_PROTO=https -e VIRTUAL_PORT=443 -d --rm=true --name ${CONTAINER_NAME} ${DOCKER_IMAGE}
 
 docker ps -a
