@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     current: {
-      scenarioId: 0,
+      scenario: {},
     },
     scenarios: [
       { id: 1, name: 'Fear the Living', introText: 'You walk into the lorem ipsum dolor sit amet' },
@@ -14,10 +14,10 @@ export default new Vuex.Store({
   },
   getters: {
     scenarios: (state) => state.scenarios,
-    scenarioById: (state, id) => state.scenarios.find(scenario => scenario.id === id),
+    scenario: (state) => state.current.scenario,
   },
   mutations: {
-    selectScenario: (state, id) => state.current = { ...state.current, id: id },
+    selectScenario: (state, id) => state.current = { ...state.current, scenario: state.scenarios.find(scenario => id === scenario.id) },
   },
   actions: {
     selectScenario: ({ commit }, id) => {
