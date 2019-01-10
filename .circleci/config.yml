@@ -128,6 +128,7 @@ jobs:
       - run:  
           name: Deploy to Digital Ocean
           command: |
+            scp deploy-${IMAGE_NAME}.sh ${PROD_SERVER_USER}@${PROD_SERVER_HOST}:/root/
             ssh -o StrictHostKeyChecking=no ${PROD_SERVER_USER}@${PROD_SERVER_HOST} "/bin/bash /root/deploy-${IMAGE_NAME}.sh $IMAGE_NAME:$TAG ${SUBDOMAIN}"
 
 # CircleCI Workflow Definitions
