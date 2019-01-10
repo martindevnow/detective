@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -24,12 +24,12 @@ export default {
     ]),
   },
   methods: {
-    ...mapMutations([
+    ...mapActions([
       'selectScenario',
     ]),
-    select: (id) => {
-      this.selectScenario(id);
-      this.$router.push({name: 'scenario'});
+    select (id) {
+      this.$store.dispatch('selectScenario', id);
+      this.$router.push({name: 'scenario', params: { id }});
     },
   }
 }
