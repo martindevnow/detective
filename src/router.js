@@ -23,10 +23,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "scenarios" */ './views/Scenarios.vue')
     },
     {
+      path: '/scenario/:id/:location',
+      name: 'location',
+      component: () => import(/* webpackChunkName: "location" */ './views/Location.vue')
+    },
+    {
       path: '/scenario/:id',
       name: 'scenario',
       component: () => import(/* webpackChunkName: "scenario" */ './views/Scenario.vue')
     },
+
     {
       path: '/scenario/:id/:location',
       name: 'survey',

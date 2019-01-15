@@ -59,7 +59,6 @@ export default {
     },
     searchForClues() {
       this.isSurveying = true;
-      console.log({name: 'survey', params: { id: this.scenario.id, location: this.location.id }});
       this.$router.push({name: 'survey', params: { id: this.scenario.id, location: this.location.id }});
       setTimeout(() => { 
         this.isSurveying = false;

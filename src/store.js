@@ -35,8 +35,9 @@ export default new Vuex.Store({
         id: 1, 
         name: 'Fear the Living', 
         introText: 'You walk into the lorem ipsum dolor sit amet', 
-        places: [
-          { id: 'lnd1_l01', name: 'Scotland Yard' },
+        initialLocation: 'lnd1_l0',
+        locations: [
+          { id: 'lnd1_l0', name: 'Scotland Yard', initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ' },
           { id: 'lnd1_1E', name: `Victim's House` },
           { id: 'lnd1_1G', name: 'Modeling Agency' },
         ],
@@ -73,7 +74,7 @@ export default new Vuex.Store({
   mutations: {
     selectScenario: (state, id) => { 
       const scenario = state.scenarios.find(s => id === s.id);
-      state.current = { ...state.current, scenario, location: scenario.locations.find(l => l.id === 'lnd1_l0') };
+      state.current = { ...state.current, scenario, location: scenario.locations.find(l => l.id === scenario.initialLocation) };
     }
   },
   actions: {
