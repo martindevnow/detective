@@ -5,13 +5,16 @@
     <p>{{ location.initialDescription }}</p>
 
     <div class="startQuestioning" v-if="!isQuestioning">
-      <button @click="talkToPerson = true">Talk to Someone</button>
+      <button v-if="!talkToPerson" @click="talkToPerson = true">Talk to Someone</button>
+      <button v-if="talkToPerson" @click="cancel()">Nevermind</button>
       <qrcode-stream v-if="talkToPerson" @decode="onQuestionIndividual"></qrcode-stream>
     </div>
 
     <div class="isQuestioning" v-if="isQuestioning">
       <p>{{ this.questioningText }}</p>
-      <button @click="askQuestion = true" v-if="!response">Ask About...</button>
+      <button v-if="!response" @click="askQuestion = true">Ask About...</button>
+      <button v-if="isQuestioning" @click="cancel()">Goodbye</button>
+
       <qrcode-stream v-if="askQuestion" @decode="onAskQuestion"></qrcode-stream>
     </div>
 
@@ -20,11 +23,7 @@
       <button @click="askQuestion = true">Ask a follow up question...</button>
     </div>
 
-    <div class="survey" v-if="isSurveying">
-      <survey></survey>
-    </div>
-
-    <button @click="searchForClues()">Search for Clues</button>
+    <button v-if="isIdle" @click="searchForClues()">Search for Clues</button>
   </div>
 </template>
 
@@ -34,6 +33,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
+      isIdle: true,
       talkToPerson: false,
       askQuestion: false,
       isQuestioning: false,
@@ -43,15 +43,21 @@ export default {
     };
   },
   computed: {
-        ...mapGetters([
+    ...mapGetters([
       'scenario',
       'location',
     ]),
   },
   methods: {
+    cancel() {
+      this.isIdle = true;
+      this.talkToPerson = false;
+      this.isQuestioning = false;
+    },
     onQuestionIndividual(txt) {
       this.questioningText = `You are now questioning: ${txt}`;
       this.isQuestioning = true;
+      this.isIdle = false;
     },
     onAskQuestion(txt) {
       this.askQuestion = false;
@@ -59,7 +65,9 @@ export default {
     },
     searchForClues() {
       this.isSurveying = true;
-      this.$router.push({name: 'survey', params: { id: this.scenario.id, location: this.location.id }});
+      const navTo = {name: 'survey', params: { id: this.scenario.id, location: this.location.id }};
+      console.log(navTo)
+      this.$router.push(navTo);
       setTimeout(() => { 
         this.isSurveying = false;
         this.$router.back();

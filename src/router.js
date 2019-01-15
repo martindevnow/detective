@@ -34,7 +34,7 @@ export default new Router({
     },
 
     {
-      path: '/scenario/:id/:location',
+      path: '/scenario/:id/:location/survey',
       name: 'survey',
       component: () => import(/* webpackChunkName: "survey" */ './views/Survey.vue')
     },
