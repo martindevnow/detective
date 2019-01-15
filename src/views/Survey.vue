@@ -1,16 +1,16 @@
 <template>
-  <div id="viewer"></div>
+  <div id="surveyorPano"></div>
 </template>
 
 <style>
-  #viewer {
+  #surveyorPano {
     width: 100vw;
-    height: 50vh;
+    height: 100vh;
   }
 </style>
 
 <script>
-import PhotoSphereViewer from 'photo-sphere-viewer';
+import {PanoViewer} from "@egjs/view360";
 
 export default {
   data() {
@@ -19,13 +19,16 @@ export default {
     }
   },
   mounted() {
-    let viewer = new PhotoSphereViewer({
-      container: 'viewer',
-      // panorama: '/usr/src/app/src/assets/pano1.jpg'
-      panorama: 'http://localhost:8085/pano3.jpg',
-      navbar: false,
-    });
-    this.viewer = viewer;
+    const panoViewer = new PanoViewer(
+      document.getElementById("surveyorPano"),
+      {
+        image: "/images/pano3.jpg",
+        gyroMode: "VR",
+      }
+    );
+    this.viewer = panoViewer;
+
+    console.log(panoViewer.getImage())
   }
 }
 

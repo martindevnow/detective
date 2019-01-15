@@ -24,7 +24,7 @@
     "start:cypress": "IMAGE_NAME=${npm_package_name} TAG=${TAG:=latest} docker-compose run --rm cypress ./node_modules/.bin/cypress run"
   },
   "dependencies": {
-    "photo-sphere-viewer": "^3.5.0",
+    "@egjs/view360": "^3.2.1-rc",
     "three": "^0.100.0",
     "vue": "^2.5.21",
     "vue-qrcode-reader": "^1.3.3",
