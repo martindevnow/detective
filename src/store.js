@@ -1,5 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersist from 'vuex-persist'
+
+const vuexPersist = new VuexPersist({
+  key: 'my-app',
+  storage: localStorage
+})
 
 Vue.use(Vuex)
 /**
@@ -23,6 +29,7 @@ Vue.use(Vuex)
  */
 
 export default new Vuex.Store({
+  plugins: [vuexPersist.plugin],
   state: {
     current: {
       scenario: {},
@@ -38,7 +45,7 @@ export default new Vuex.Store({
         initialLocation: 'lnd1_l0',
         locations: [
           { id: 'lnd1_l0', name: 'Scotland Yard', initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ' },
-          { id: 'lnd1_1E', name: `Victim's House` },
+          { id: 'lnd1_1E', name: `Victim's House`, initialDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', canSearch: true, canSearchTrigger: null  },
           { id: 'lnd1_1G', name: 'Modeling Agency' },
         ],
         people: [
@@ -70,6 +77,18 @@ export default new Vuex.Store({
     scenarios: (state) => state.scenarios,
     scenario: (state) => state.current.scenario,
     location: (state) => state.current.location,
+    canSearchCurrentLocation: (state) => {
+      if (! state.current.location.canSearch ) {
+        return false;
+      }
+      if (state.current.location.canSearch && state.current.location.canSearchTrigger === null) {
+        return true;
+      }
+      if (state.current.triggers.find(t => t.id === state.current.location.canSearchTrigger )) {
+        return true;
+      }
+      return false;
+    }
   },
   mutations: {
     selectScenario: (state, id) => { 

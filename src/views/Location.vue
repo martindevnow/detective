@@ -4,18 +4,19 @@
     <h2>{{ location.name }}</h2>
     <p>{{ location.initialDescription }}</p>
 
-    <div class="startQuestioning" v-if="!isQuestioning">
-      <button v-if="!talkToPerson" @click="talkToPerson = true">Talk to Someone</button>
-      <button v-if="talkToPerson" @click="cancel()">Nevermind</button>
-      <qrcode-stream v-if="talkToPerson" @decode="onQuestionIndividual"></qrcode-stream>
-    </div>
-
-    <div class="isQuestioning" v-if="isQuestioning">
-      <p>{{ this.questioningText }}</p>
-      <button v-if="!response" @click="askQuestion = true">Ask About...</button>
-      <button v-if="isQuestioning" @click="cancel()">Goodbye</button>
-
-      <qrcode-stream v-if="askQuestion" @decode="onAskQuestion"></qrcode-stream>
+    <div class="center-screen">
+      <div class="qr-window" :class="{active: qrActive}">
+        <div class="qr-activator"
+          @mousedown="activateQR()" 
+          @mouseup="deactivateQR()" 
+          @mouseleave="deactivateQR()"></div>
+        <qrcode-stream 
+          :paused="!qrActive"
+          @decode="onDecodeQR" 
+          @mousedown="activateQR()" 
+          @mouseup="deactivateQR()" 
+          @mouseleave="deactivateQR()"></qrcode-stream>
+      </div>
     </div>
 
     <div class="response" v-if="response">
