@@ -44,9 +44,9 @@ export default new Vuex.Store({
         introText: 'You walk into the lorem ipsum dolor sit amet', 
         initialLocation: 'lnd1_l0',
         locations: [
-          { id: 'lnd1_l0', name: 'Scotland Yard', initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ' },
-          { id: 'lnd1_1E', name: `Victim's House`, initialDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', canSearch: true, canSearchTrigger: null  },
-          { id: 'lnd1_1G', name: 'Modeling Agency' },
+          { id: 'lnd1_l0', name: 'Scotland Yard', initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ', canSearch: true, canSearchTrigger: null },
+          { id: 'lnd1_lE', name: `Victim's House`, initialDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', canSearch: true, canSearchTrigger: null  },
+          { id: 'lnd1_lG', name: 'Modeling Agency' },
         ],
         people: [
           { id: 'lnd1_c01', name: 'Captain Murphy', fallback: `I can't be doing your job for you. Get out in the field and find out!` },
@@ -81,7 +81,7 @@ export default new Vuex.Store({
       if (! state.current.location.canSearch ) {
         return false;
       }
-      if (state.current.location.canSearch && state.current.location.canSearchTrigger === null) {
+      if (state.current.location.canSearch && !state.current.location.canSearchTrigger) {
         return true;
       }
       if (state.current.triggers.find(t => t.id === state.current.location.canSearchTrigger )) {
