@@ -20,18 +20,28 @@
       <button @click="askQuestion = true">Ask a follow up question...</button>
     </div>
 
+    <div class="survey" v-if="isSurveying">
+      <survey></survey>
+    </div>
+
+    <button @click="searchForClues()">Search for Clues</button>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import Survey from '../views/Survey.vue';
 
 export default {
+  components: {
+    Survey,
+  },
   data() {
     return {
       talkToPerson: false,
       askQuestion: false,
       isQuestioning: false,
+      isSurveying: false,
       questioningText: '',
       response: '',
     };
@@ -39,6 +49,7 @@ export default {
    computed: {
     ...mapGetters([
       'scenario',
+      'location',
     ]),
   },
   methods: {
@@ -49,6 +60,14 @@ export default {
     onAskQuestion(txt) {
       this.askQuestion = false;
       this.response = `This is a hard coded response.. sorry, no info here. You asked about ${txt}`;
+    },
+    searchForClues() {
+      this.isSurveying = true;
+      this.$router.push({name: 'survey', params: { id: this.scenario.id, location: this.location.id }});
+      setTimeout(() => { 
+        this.isSurveying = false;
+        this.$router.back();
+      }, 15000);
     }
   }
 }

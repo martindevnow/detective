@@ -2,6 +2,25 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
+/**
+ * Types of Cards to Scan:
+ * # Locations
+ * These QR codes are prefixed with `lnd1_l` and followed by the letter on the card.
+ * The one exception to this is the HOME (Scotland Yard) card. That card's QR
+ * is `lnd1_l01`, everyone after is `lnd1_lA`, `lnd_lB
+ * 
+ * # People
+ * These QR code are prefixed with `lnd1_c` followed by the number on the card,
+ * padded with 0s like `lnd1_c01` to `lnd1_c55`
+ * 
+ * # Evidence
+ * These QR codes are prefixed with `lnd1_i` followed by the number on the card,
+ * padded with 0s like `lnd1_i01` to `lnd1_i37`
+ * 
+ * # Special Cards
+ * These QR codes are prefixed with `lnd1_s` followed by the number on the card,
+ * padded with 0s like `lnd1_s01` to `lnd1_s15`
+ */
 
 export default new Vuex.Store({
   state: {
@@ -17,7 +36,7 @@ export default new Vuex.Store({
         name: 'Fear the Living', 
         introText: 'You walk into the lorem ipsum dolor sit amet', 
         places: [
-          { id: 'lnd1_l0', name: 'Scotland Yard' },
+          { id: 'lnd1_l01', name: 'Scotland Yard' },
           { id: 'lnd1_1E', name: `Victim's House` },
           { id: 'lnd1_1G', name: 'Modeling Agency' },
         ],
@@ -49,9 +68,13 @@ export default new Vuex.Store({
   getters: {
     scenarios: (state) => state.scenarios,
     scenario: (state) => state.current.scenario,
+    location: (state) => state.current.location,
   },
   mutations: {
-    selectScenario: (state, id) => state.current = { ...state.current, scenario: state.scenarios.find(scenario => id === scenario.id) },
+    selectScenario: (state, id) => { 
+      const scenario = state.scenarios.find(s => id === s.id);
+      state.current = { ...state.current, scenario, location: scenario.locations.find(l => l.id === 'lnd1_l0') };
+    }
   },
   actions: {
     selectScenario: ({ commit }, id) => {

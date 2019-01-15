@@ -28,6 +28,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "scenario" */ './views/Scenario.vue')
     },
     {
+      path: '/scenario/:id/:location',
+      name: 'survey',
+      component: () => import(/* webpackChunkName: "survey" */ './views/Survey.vue')
+    },
+    {
       path: '*',
       name: 'error-404',
       component: ErrorNotFound
