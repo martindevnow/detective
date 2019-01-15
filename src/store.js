@@ -68,9 +68,13 @@ export default new Vuex.Store({
   getters: {
     scenarios: (state) => state.scenarios,
     scenario: (state) => state.current.scenario,
+    location: (state) => state.current.location,
   },
   mutations: {
-    selectScenario: (state, id) => state.current = { ...state.current, scenario: state.scenarios.find(scenario => id === scenario.id) },
+    selectScenario: (state, id) => { 
+      const scenario = state.scenarios.find(s => id === s.id);
+      state.current = { ...state.current, scenario, location: scenario.locations.find(l => l.id === 'lnd1_l0') };
+    }
   },
   actions: {
     selectScenario: ({ commit }, id) => {
