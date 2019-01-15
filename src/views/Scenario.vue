@@ -10,12 +10,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Survey from '../views/Survey.vue';
 
 export default {
-  components: {
-    Survey,
-  },
   data() {
     return {
 
