@@ -31,12 +31,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import QrcodeStream from '../components/QrcodeStream.vue';
+// import QrcodeStream from '../components/QrcodeStream.vue';
 
 export default {
-  components: {
-    'qrcode-stream': QrcodeStream,
-  },
+  // components: {
+  //   'qrcode-stream': QrcodeStream,
+  // },
   data() {
     return {
       qrActive: false,
