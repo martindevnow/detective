@@ -3,19 +3,20 @@
 
     <h2>{{ location.name }}</h2>
     <p>{{ location.initialDescription }}</p>
-
+    <p v-if="qrActive"><strong>Tracking ACTIVE</strong></p>
+    <p v-if="!qrActive"><strong>Tracking off</strong></p>
     <div class="center-screen">
-      <div class="qr-window" :class="{active: qrActive}">
+      <div class="qr-window" :class="{active: qrActive, 'is-pressed': isPressed}">
         <div class="qr-activator"
           @mousedown="activateQR()" 
           @mouseup="deactivateQR()" 
-          @mouseleave="deactivateQR()"></div>
+          @mouseleave="deactivateQR()"
+          v-bind:press="onPress"
+          v-bind:pressup="onPressUp"
+          ></div>
         <qrcode-stream 
-          :paused="!qrActive"
-          @decode="onDecodeQR" 
-          @mousedown="activateQR()" 
-          @mouseup="deactivateQR()" 
-          @mouseleave="deactivateQR()"></qrcode-stream>
+          :track="qrActive"
+          @decode="onDecodeQR"></qrcode-stream>
       </div>
     </div>
 
@@ -30,11 +31,16 @@
 
 <script>
 import { mapGetters } from 'vuex';
+// import QrcodeStream from '../components/QrcodeStream.vue';
 
 export default {
+  // components: {
+  //   'qrcode-stream': QrcodeStream,
+  // },
   data() {
     return {
       qrActive: false,
+      isPressed: false,
       isIdle: true,
       askQuestion: false,
       isQuestioning: false,
@@ -51,7 +57,16 @@ export default {
     ]),
   },
   methods: {
+    onPress(e) {
+      console.log('onPress', e)
+      this.isPressed = true;
+    },
+    onPressUp(e) {
+      console.log('onPressUp', e)
+      this.isPressed = false;
+    },
     activateQR() {
+      console.log('activating');
       this.qrActive = true;
     },
     deactivateQR() {
@@ -94,6 +109,7 @@ export default {
   width: 50vh;
   height: 50vh;
   border: 3px solid black;
+  background-color: black;
 }
 .qr-activator {
   position: absolute;
@@ -110,5 +126,8 @@ qrcode-stream {
 }
 .active {
   border-color: lightseagreen;
+}
+.is-pressed {
+  background-color: lightgreen;
 }
 </style>

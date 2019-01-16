@@ -18,6 +18,12 @@ export default {
       viewer: null,
     }
   },
+  created() {
+    window.addEventListener("resize", this.onWindowResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.onWindowResize);
+  },
   mounted() {
     const panoViewer = new PanoViewer(
       document.getElementById("surveyorPano"),
@@ -29,6 +35,11 @@ export default {
     this.viewer = panoViewer;
 
     console.log(panoViewer.getImage())
+  },
+  methods: {
+    onWindowResize(e) {
+      this.viewer.updateViewportDimensions({width: e.target.innerWidth, height: e.target.innerHeight})
+    }
   }
 }
 
