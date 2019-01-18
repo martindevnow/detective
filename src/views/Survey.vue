@@ -28,7 +28,7 @@ export default {
     const panoViewer = new PanoViewer(
       document.getElementById("surveyorPano"),
       {
-        image: "/images/pano3.jpg",
+        image: "/images/pano4.jpg",
         gyroMode: "VR",
       }
     );
@@ -38,7 +38,10 @@ export default {
   },
   methods: {
     onWindowResize(e) {
-      this.viewer.updateViewportDimensions({width: e.target.innerWidth, height: e.target.innerHeight})
+      this.viewer.updateViewportDimensions({
+        width: e.target.innerWidth, 
+        height: e.target.innerHeight
+      })
     }
   }
 }
