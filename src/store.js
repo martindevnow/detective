@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
+import * as PlayerStatus from './models/player-status';
+import * as actionType from './action-types';
+import * as mutationType from './mutation-types';
+import * as utils from './helpers/utils';
+import * as qrType from './models/qr-types';
 
 const vuexPersist = new VuexPersist({
   key: 'my-app',
@@ -32,10 +37,13 @@ export default new Vuex.Store({
   plugins: [vuexPersist.plugin],
   state: {
     current: {
+      status: PlayerStatus.IDLE,
       scenario: {},
       triggers: [],
       location: {},
+      items: [],
       person: {},
+      minutesPassed: 0,
     },
     scenarios: [
       { 
@@ -54,14 +62,14 @@ export default new Vuex.Store({
           { id: 'lnd1_c03', name: 'Mr Martin', fallback: `I see too many faces on a daily basis to remember everyone I encounter.` },
           { id: 'lnd1_lab', name: 'Lab Tech', fallback: `I wasn't able to find anything of any significance to the case.` }
         ],
-        evidence: [
-          { id: 'lnd1_e01', name: 'Chef Knife', info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.` },
+        items: [
+          { id: 'lnd1_i01', name: 'Chef Knife', info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.` },
         ],
         questions: [
           { suspect: 'lnd1_c01', topic: 'lnd1_c02', pretriggers: [], triggers: null,     response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` },
-          { suspect: 'lnd1_c02', topic: 'lnd1_e01', pretriggers: [], triggers: null,     response: `I like to cook.` },
-          { suspect: 'lnd1_lab', topic: 'lnd1_e01', pretriggers: [], triggers: 1,        response: `Wow, looks like this could do some damage. It'll take some time to analyze. Call back in an hour.` },
-          { suspect: 'lnd1_lab', topic: 'lnd1_e01', pretriggers: [1, 2], triggers: null, response: `The results of the analysis are in. It seems there are 2 sets of fingerprints. One set belogs to the victim, and the other set is not in our database. The blood belogs to our victim. Hope this was informative!` },
+          { suspect: 'lnd1_c02', topic: 'lnd1_i01', pretriggers: [], triggers: null,     response: `I like to cook.` },
+          { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [], triggers: 1,        response: `Wow, looks like this could do some damage. It'll take some time to analyze. Call back in an hour.` },
+          { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [1, 2], triggers: null, response: `The results of the analysis are in. It seems there are 2 sets of fingerprints. One set belogs to the victim, and the other set is not in our database. The blood belogs to our victim. Hope this was informative!` },
         ],
         events: [
           { id: 1, name: 'Knife Analysis Completed', triggers: 2 },
@@ -91,14 +99,118 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    selectScenario: (state, id) => { 
+    [mutationType.SELECT_SCENARIO]: (state, id) => { 
       const scenario = state.scenarios.find(s => id === s.id);
       state.current = { ...state.current, scenario, location: scenario.locations.find(l => l.id === scenario.initialLocation) };
+    },
+    [mutationType.TRAVEL_TO_LOCATION]: (state, id) => {
+      // travel to location
+      // add time
+      // check for triggers
+      const location = state.scenario.locations.find(l => l.id === id);
+      state.current = { 
+        ...state.current, 
+        status: PlayerStatus.IDLE, 
+        minutesPassed: state.current.minutesPassed + 20,
+        location 
+      };
+    },
+    [mutationType.INVESTIGATE_OBJECT]: (state, id) => {
+      // find object at location
+      // if not, display a fall back message
+      // otherwise,
+      // display message and show found clue screen
+      const item = state.location.items.find(i => i.id === id);
+      if (! item) {
+        // display a not found message
+      }
+
+      // check triggers required
+
+      state.current = {
+        ...state.current,
+        items: [
+          ...state.current.items,
+          item,
+        ]
+      }
+
+      // check for triggers tripped
+    },
+    [mutationType.START_CONVERSATION]: (state, id) => {
+      // find user at this location
+      // check for required triggers
+      // if anyhting fails, enter a different state
+      const person = state.location.people.find(p => p.id === id);
+      if (!person) {
+        // commit a mutation to tell the user this person isn't here right now
+      }
+
+      // check if a trigger causes the person to be absent
+
+      // start conversation
+      state.current = {
+        ...state.current,
+        status: PlayerStatus.QUESTIONING,
+        person,
+      };
     }
   },
   actions: {
-    selectScenario: ({ commit }, id) => {
+    [actionType.SELECT_SCENARIO]: ({ commit }, id) => {
       commit('selectScenario', id);
-    }
+    },
+    [actionType.SCAN_QR]: ({dispatch, state}, code) => {
+      switch (state.current.status) {
+        case PlayerStatus.IDLE:
+          dispatch(actionType.SCAN_QR_IDLE, code);
+          break;
+        case PlayerStatus.QUESTIONING: 
+          dispatch(actionType.SCAN_QR_QUESTIONING, code);
+          break;
+        case PlayerStatus.SOLVING:
+          dispatch(actionType.SCAN_QR_SOLVING, code);
+          break;
+        case PlayerStatus.SEARCHING:
+        default:
+          console.warning('User should not be able to scan while searching');
+          break;          
+      }
+    },
+    [actionType.SCAN_QR_IDLE]: ({commit}, code) => {
+      switch (utils.getQRType(code)) {
+        case qrType.LOCATION:
+          commit(mutationType.TRAVEL_TO_LOCATION, code);
+          break;
+        case qrType.ITEM:
+          commit(mutationType.INVESTIGATE_OBJECT, code);
+          break;
+        case qrType.CHARACTER:
+          commit(mutationType.START_CONVERSATION, code);
+          break;
+      }
+    },
+    [actionType.SCAN_QR_QUESTIONING]: ({commit}, code) => {
+      switch (utils.getQRType(code)) {
+        case qrType.LOCATION:
+          commit(mutationType.CONFIRM_TRAVEL_TO_LOCATION, code);
+          break;
+        case qrType.ITEM:
+        case qrType.SPECIAL:
+        case qrType.CHARACTER:
+          commit(mutationType.ASK_QUESTION, code);
+          break;
+      }
+    },
+    [actionType.SCAN_QR_SOLVING]: ({commit}, code) => {
+      switch (utils.getQRType(code)) {
+        case qrType.LOCATION:
+        case qrType.ITEM:
+        case qrType.SPECIAL:
+        case qrType.CHARACTER:
+          commit(mutationType.ANSWER_QUESTION, code);
+          break;
+      }
+    },
   }
 })

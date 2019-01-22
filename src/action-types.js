@@ -1,0 +1,6 @@
+export const SELECT_SCENARIO = 'SELECT_SCENARIO';
+export const SCAN_QR = 'SCAN_QR';
+export const SCAN_QR_IDLE = 'SCAN_QR_IDLE';
+export const SCAN_QR_QUESTIONING = 'SCAN_QR_QUESTIONING';
+export const SCAN_QR_SOLVING = 'SCAN_QR_SOLVING';
+

@@ -5,7 +5,7 @@
     <p>{{ location.initialDescription }}</p>
     <p v-if="qrActive"><strong>Tracking ACTIVE</strong></p>
     <p v-if="!qrActive"><strong>Tracking off</strong></p>
-    <div class="center-screen">
+    <div class="center-screen" v-if="false">
       <div class="qr-window" :class="{active: qrActive, 'is-pressed': isPressed}">
         <div class="qr-activator"
           @mousedown="activateQR()" 
@@ -19,6 +19,8 @@
           @decode="onDecodeQR"></qrcode-stream>
       </div>
     </div>
+    <fake-scanner></fake-scanner>
+
 
     <div class="response" v-if="response">
       <p>{{ response }}</p>
@@ -31,8 +33,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import FakeScanner from '../components/FakeScanner.vue';
 
 export default {
+  components: {
+    FakeScanner,
+  },
   data() {
     return {
       qrActive: false,
@@ -106,6 +112,7 @@ export default {
   height: 50vh;
   border: 3px solid black;
   background-color: black;
+  overflow: hidden;
 }
 .qr-activator {
   position: absolute;
@@ -114,6 +121,7 @@ export default {
   height: 100%;
   width: 100%;
   z-index: 100;
+  overflow: hidden;
 }
 qrcode-stream {
   position: absolute;
