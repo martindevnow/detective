@@ -52,14 +52,20 @@ export default new Vuex.Store({
         introText: 'You walk into the lorem ipsum dolor sit amet', 
         initialLocation: 'lnd1_l0',
         locations: [
-          { id: 'lnd1_l0', name: 'Scotland Yard', initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ', canSearch: true, canSearchTrigger: null },
-          { id: 'lnd1_lE', name: `Victim's House`, initialDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', canSearch: true, canSearchTrigger: null  },
+          { id: 'lnd1_l0', name: 'Scotland Yard', initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ', canSearch: true, canSearchTrigger: null, 
+            people: [
+              { id: 'lnd1_c01', name: 'Captain Murphy', fallback: `I can't be doing your job for you. Get out in the field and find out!` },
+            ]
+          },
+          { id: 'lnd1_lE', name: `Victim's House`, initialDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', canSearch: true, canSearchTrigger: null, 
+            people: [
+              { id: 'lnd1_c02', name: 'Miss Veeveeon', fallback: `Honestly, stupid questions don't deserve a response..` },
+              { id: 'lnd1_c03', name: 'Mr Martin', fallback: `I see too many faces on a daily basis to remember everyone I encounter.` },
+            ]
+          },
           { id: 'lnd1_lG', name: 'Modeling Agency' },
         ],
         people: [
-          { id: 'lnd1_c01', name: 'Captain Murphy', fallback: `I can't be doing your job for you. Get out in the field and find out!` },
-          { id: 'lnd1_c02', name: 'Miss Veeveeon', fallback: `Honestly, stupid questions don't deserve a response..` },
-          { id: 'lnd1_c03', name: 'Mr Martin', fallback: `I see too many faces on a daily basis to remember everyone I encounter.` },
           { id: 'lnd1_lab', name: 'Lab Tech', fallback: `I wasn't able to find anything of any significance to the case.` }
         ],
         items: [
@@ -107,7 +113,7 @@ export default new Vuex.Store({
       // travel to location
       // add time
       // check for triggers
-      const location = state.scenario.locations.find(l => l.id === id);
+      const location = state.current.scenario.locations.find(l => l.id === id);
       state.current = { 
         ...state.current, 
         status: PlayerStatus.IDLE, 
@@ -141,8 +147,10 @@ export default new Vuex.Store({
       // find user at this location
       // check for required triggers
       // if anyhting fails, enter a different state
-      const person = state.location.people.find(p => p.id === id);
+      const person = state.current.location.people.find(p => p.id === id);
       if (!person) {
+        // check if it is one of the lab techs (they can be called from anywhere)
+        // otherwise
         // commit a mutation to tell the user this person isn't here right now
       }
 
@@ -158,7 +166,7 @@ export default new Vuex.Store({
   },
   actions: {
     [actionType.SELECT_SCENARIO]: ({ commit }, id) => {
-      commit('selectScenario', id);
+      commit(mutationType.SELECT_SCENARIO, id);
     },
     [actionType.SCAN_QR]: ({dispatch, state}, code) => {
       switch (state.current.status) {
