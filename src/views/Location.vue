@@ -3,16 +3,14 @@
 
     <h2>{{ location.name }}</h2>
     <p>{{ location.initialDescription }}</p>
-    <p v-if="qrActive"><strong>Tracking ACTIVE</strong></p>
-    <p v-if="!qrActive"><strong>Tracking off</strong></p>
-    <div class="center-screen" v-if="false">
-      <div class="qr-window" :class="{active: qrActive, 'is-pressed': isPressed}">
+    <div class="center-screen" v-if="true">
+      <div class="qr-window" :class="{active: qrActive}">
         <div class="qr-activator"
-          @mousedown="activateQR()" 
-          @mouseup="deactivateQR()" 
-          @mouseleave="deactivateQR()"
-          v-bind:press="onPress"
-          v-bind:pressup="onPressUp"
+          @mousedown="onTouch" 
+          @mouseup="onTouchEnd" 
+          @mouseleave="onTouchEnd"
+          v-touch="onTouch"
+          v-touchend="onTouchEnd"
           ></div>
         <qrcode-stream 
           :track="qrActive"
@@ -42,7 +40,6 @@ export default {
   data() {
     return {
       qrActive: false,
-      isPressed: false,
       isIdle: true,
       askQuestion: false,
       isQuestioning: false,
@@ -59,23 +56,13 @@ export default {
     ]),
   },
   methods: {
-    onPress(e) {
-      console.log('onPress', e)
-      this.isPressed = true;
-    },
-    onPressUp(e) {
-      console.log('onPressUp', e)
-      this.isPressed = false;
-    },
-    activateQR() {
-      console.log('activating');
+    onTouch(e) {
+      console.log('onTouch', e)
       this.qrActive = true;
     },
-    deactivateQR() {
+    onTouchEnd(e) {
+      console.log('onTouchEnd', e)
       this.qrActive = false;
-    },
-    cancel() {
-      this.isIdle = true;
     },
     onDecodeQR(txt) {
       if (!this.qrActive) {
@@ -108,9 +95,10 @@ export default {
 .qr-window {
   position: relative;
   display: flex;
-  width: 50vh;
-  height: 50vh;
-  border: 3px solid black;
+  margin: 50px 50px;
+  width: 250px;
+  height: 250px;
+  border: 6px solid #888888;
   background-color: black;
   overflow: hidden;
 }
@@ -132,7 +120,9 @@ qrcode-stream {
 .active {
   border-color: lightseagreen;
 }
-.is-pressed {
-  background-color: lightgreen;
+button {
+  padding: 15px;
+  background-color: gray;
+  color: darkslategrey;
 }
 </style>

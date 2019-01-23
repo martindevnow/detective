@@ -15,6 +15,20 @@ export default {
 </script>
 
 <style>
+html {
+  background-color: black;
+}
+
+* {
+  color: #AAAAAA;
+}
+
+input, button, submit { border:none; }
+
+button {
+  text-transform: uppercase;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,7 +42,7 @@ export default {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: white;
 }
 
 #nav a.router-link-exact-active {
