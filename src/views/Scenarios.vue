@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import * as actionType from '../action-types';
+import * as actionType from '../store/action-types';
 
 export default {
   computed: {

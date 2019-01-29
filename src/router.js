@@ -6,7 +6,7 @@ import ErrorNotFound from './views/ErrorNotFound.vue'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -32,7 +32,6 @@ export default new Router({
       name: 'scenario',
       component: () => import(/* webpackChunkName: "scenario" */ './views/Scenario.vue')
     },
-
     {
       path: '/scenario/:id/:location/survey',
       name: 'survey',

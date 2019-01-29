@@ -3,7 +3,7 @@
 
     <h2>{{ location.name }}</h2>
     <p>{{ location.initialDescription }}</p>
-    <div class="center-screen" v-if="true">
+    <div class="center-screen" v-if="!response">
       <div class="qr-window" :class="{active: qrActive}">
         <div class="qr-activator"
           @mousedown="onTouch" 
@@ -22,7 +22,7 @@
 
     <div class="response" v-if="response">
       <p>{{ response }}</p>
-      <button @click="askQuestion = true">Ask a follow up question...</button>
+      <button @click="resume">Continue</button>
     </div>
 
     <button v-if="isIdle && canSearchCurrentLocation" @click="searchForClues()">Search for Clues</button>
@@ -32,6 +32,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import FakeScanner from '../components/FakeScanner.vue';
+import * as actionType from '../store/action-types';
 
 export default {
   components: {
@@ -40,10 +41,6 @@ export default {
   data() {
     return {
       qrActive: false,
-      isIdle: true,
-      askQuestion: false,
-      isQuestioning: false,
-      isSurveying: false,
       questioningText: '',
       response: '',
     };
@@ -52,10 +49,14 @@ export default {
     ...mapGetters([
       'scenario',
       'location',
+      'status',
       'canSearchCurrentLocation'
     ]),
   },
   methods: {
+    resume() {
+      this.$store.dispatch(actionType.RESUME);
+    },
     onTouch(e) {
       console.log('onTouch', e)
       this.qrActive = true;
@@ -68,18 +69,13 @@ export default {
       if (!this.qrActive) {
         return;
       }
-      this.response = `QR Code Scanned: ${txt}`;
+      this.$store.dispatch(actionType.SCAN_QR, txt);
+      console.log(`QR Code Scanned: ${txt}`);
       this.qrActive = false;
     },
     searchForClues() {
-      this.isSurveying = true;
-      const navTo = {name: 'survey', params: { id: this.scenario.id, location: this.location.id }};
-      console.log(navTo)
-      this.$router.push(navTo);
-      setTimeout(() => { 
-        this.isSurveying = false;
-        this.$router.back();
-      }, 15000);
+      this.$store.dispatch(actionType.SEARCH_FOR_CLUES);
+
     }
   }
 }
