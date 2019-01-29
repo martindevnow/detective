@@ -13,7 +13,7 @@ describe('Question Model', () => {
         disablingTriggers: ['LOST_ITEM_ONE'],
         causesTriggers: [],     
         response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
-      });
+      }, mockPerson.id);
       expect(q.isDisabled(['LOST_ITEM_ONE'])).to.equal(true);
       expect(q.isDisabled([])).to.equal(false);
       expect(q.isEnabled(['LOST_ITEM_ONE'])).to.equal(false);
@@ -27,7 +27,7 @@ describe('Question Model', () => {
         disablingTriggers: [],
         causesTriggers: [],     
         response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
-      });
+      }, mockPerson.id);
       expect(q.isDisabled(['FOUND_ITEM_ONE'])).to.equal(false);
       expect(q.isDisabled([])).to.equal(true);
       expect(q.isEnabled(['FOUND_ITEM_ONE'])).to.equal(true);
@@ -41,7 +41,7 @@ describe('Question Model', () => {
         disablingTriggers: [],
         causesTriggers: [],     
         response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
-      });
+      }, mockPerson.id);
       expect(q.isDisabled(['LOST_ITEM_ONE'])).to.equal(false);
       expect(q.isDisabled([])).to.equal(false);
       expect(q.isEnabled(['FOUND_ITEM_ONE'])).to.equal(true);
@@ -55,7 +55,7 @@ describe('Question Model', () => {
         disablingTriggers: ['LOST_ITEM_ONE'],
         causesTriggers: [],     
         response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
-      });
+      }, mockPerson.id);
       expect(q.isDisabled(['FOUND_ITEM_ONE', 'LOST_ITEM_ONE'])).to.equal(true);
       expect(q.isDisabled(['LOST_ITEM_ONE'])).to.equal(true);
       expect(q.isDisabled([])).to.equal(true);
@@ -63,7 +63,7 @@ describe('Question Model', () => {
       expect(q.isEnabled(['FOUND_ITEM_ONE'])).to.equal(true);
       expect(q.isEnabled([])).to.equal(false);
     });
-    
+
   });
 
 });
@@ -71,7 +71,7 @@ describe('Question Model', () => {
 
 describe('fromFallback Factory Function', () => {
   it('creates a basic question from a fallback response', () => {
-    const question = fromFallback('ABCD', mockPerson.fallback);
+    const question = fromFallback('ABCD', mockPerson);
     expect(question.isEnabled([])).to.equal(true);
     expect(question.response).to.equal(mockPerson.fallback);
   });

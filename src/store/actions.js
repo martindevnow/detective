@@ -10,6 +10,7 @@ export default {
     commit(mutationType.SELECT_SCENARIO, id);
   },
   [actionType.SCAN_QR]: ({dispatch, state}, code) => {
+    console.log(`[current.status] = ${state.current.status}`)
     switch (state.current.status) {
       case PlayerStatus.IDLE:
         dispatch(actionType.SCAN_QR_IDLE, code);
@@ -40,6 +41,7 @@ export default {
     }
   },
   [actionType.SCAN_QR_QUESTIONING]: ({commit}, code) => {
+    console.log(`[getQRType(${code})] = ${utils.getQRType(code)}`)
     switch (utils.getQRType(code)) {
       case qrType.LOCATION:
         commit(mutationType.CONFIRM_TRAVEL_TO_LOCATION, code);

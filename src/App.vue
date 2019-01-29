@@ -23,7 +23,13 @@ html {
   color: #AAAAAA;
 }
 
-input, button, submit { border:none; }
+input, button, submit { 
+  background-color: white;
+  color: black;
+  border: none;
+  font-size: 18px;
+
+}
 
 button {
   text-transform: uppercase;

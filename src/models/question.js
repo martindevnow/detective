@@ -5,12 +5,13 @@ export class Question {
    * @param {topic, enablingTriggers, disablingTriggers, causesTriggers, response} init 
    */
 
-  constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, response}) {
+  constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, response}, personId) {
     this.topic = topic;
     this.enablingTriggers = enablingTriggers;
     this.disablingTriggers = disablingTriggers;
     this.causesTriggers = causesTriggers;
     this.response = response;
+    this.personId = personId;
   }
 
   isDisabled(triggers) {
@@ -39,12 +40,12 @@ export class Question {
  * Factory Function fron Person's Fallback Response 
  * (when asked about any topic)
  */
-export const fromFallback = (topic, fallback) => {
+export const fromFallback = (topic, person) => {
   return new Question({
     topic: topic,
     enablingTriggers: [],
     disablingTriggers: [],
     causesTriggers: [],
-    response: fallback,
-  });
+    response: person.fallback,
+  }, person.id);
 }

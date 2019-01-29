@@ -40,3 +40,12 @@
  * lnd1_i37 - Signs and Symbols
  * 
  */
+
+export class Item {
+  constructor({id, name, info, causesTriggers}) {
+    this.id = id;
+    this.name = name;
+    this.info = info;
+    this.causesTriggers = causesTriggers;
+  }
+}

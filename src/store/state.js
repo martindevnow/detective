@@ -29,6 +29,7 @@ export default {
     items: [],
     person: {},
     minutesPassed: 0,
+    question: null,
     response: '',
   },
   scenarios: [
@@ -36,14 +37,13 @@ export default {
       id: 1, 
       name: 'Fear the Living', 
       introText: 'You walk into the lorem ipsum dolor sit amet', 
-      initialLocation: 'lnd1_l01',
+      initLocation: 'lnd1_l01',
       locations: [
         { 
-          id: 'lnd1_l0', 
+          id: 'lnd1_l01', 
           name: 'Scotland Yard', 
-          initialDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ', 
-          canSearch: false, 
-          canSearchTrigger: null, 
+          initDescription: 'Scotlandyard is eerily quiet this morning. You can tell there is tension in the air. Considering the captains daughter has been kidnapped, you understand why... ', 
+          search: { enablingTriggers: [], disablingTriggers: [] }, 
           people: [
             { 
               id: 'lnd1_c01', 
@@ -54,7 +54,7 @@ export default {
                   topic: 'lnd1_c02',
                   enablingTriggers: [],
                   disablingTriggers: [],
-                  causesTriggers: [],     
+                  causesTriggers: [],
                   response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
                 },
 
@@ -65,21 +65,14 @@ export default {
         { 
           id: 'lnd1_lE', 
           name: `Victim's House`, 
-          initialDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', 
-          search: {
-            default: true,
-            openTrigger: null,
-            closeTrigger: null,
-            file: [
-              {trigger: null, pano: 'pano4.jpg'},
-            ]
-          },
-          panoFile: 'pano4.jpg',
+          initDescription: 'You walk in to find the deceased on the floor... the smell of rotting flesh makes your nose hairs curl... ', 
+          search: { enablingTriggers: [], disablingTriggers: [] }, 
           items: [
             { 
               id: 'lnd1_i01', 
               name: 'Chef Knife', 
-              info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.` 
+              causesTriggers: [],
+              info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.` ,
             },
           ],
           people: [

@@ -15,12 +15,12 @@ export class Person {
    * Person Interface
    * @param {id, name, fallback, questions} init 
    */
-  
+
   constructor({id, name, fallback, questions}){
     this.id = id;
     this.name = name;
     this.fallback = fallback;
-    this.questions = questions;
+    this.questions = questions && questions.map(q => new Question(q, this.id));
   }
 
   askAboutTopic(topic, triggers){
@@ -30,7 +30,7 @@ export class Person {
     }
 
     const enabledQuestions = questionsAboutTopic
-      .map(q => new Question(q))
+      .map(q => new Question(q, this.id))
       .filter(q => q.isEnabled(triggers))
       .sort((a, b) => b.length - a.length);
 
