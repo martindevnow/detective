@@ -3,11 +3,11 @@
       <button v-if="userIsIdle && canSearchCurrentLocation" @click="searchForClues()">Search for Clues</button>
       <button v-if="userIsQuestioning" @click="resume()">Say Goodbye</button>
   </div>
-
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import ActionType from '../store/action-type';
 
 export default {
 
@@ -19,14 +19,15 @@ export default {
       'status',
       'userIsIdle',
       'userIsQuestioning',
+      'canSearchCurrentLocation',
     ]),
   },
   methods: {
     resume() {
-      this.$store.dispatch(actionType.RESUME);
+      this.$store.dispatch(ActionType.RESUME);
     },
     searchForClues() {
-      this.$store.dispatch(actionType.SEARCH_FOR_CLUES);
+      this.$store.dispatch(ActionType.SEARCH_FOR_CLUES);
     }
   }
 }

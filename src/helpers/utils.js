@@ -1,4 +1,4 @@
-import * as qrTypes from '../models/qr-types';
+import QRType from '../enums/qr-types';
 
 export const isPerson = (qrText) => {
   return qrText.slice(0,6) === 'lnd1_c';
@@ -22,15 +22,15 @@ export const isSpecial = (qrText) => {
 
 export const getQRType = (qrText) => {
   if (isPerson(qrText)) {
-    return qrTypes.PERSON;
+    return QRType.PERSON;
   }
   if (isItem(qrText)) {
-    return qrText.ITEM;
+    return QRType.ITEM;
   }
   if (isLocation(qrText)) {
-    return qrTypes.LOCATION;
+    return QRType.LOCATION;
   }
   if (isSpecial(qrText)) {
-    return qrTypes.SPECIAL;
+    return QRType.SPECIAL;
   }
 }

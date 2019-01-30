@@ -1,20 +1,20 @@
-import * as mutationType from './mutation-types';
-import * as interactionType from '../models/interaction-types';
-import * as PlayerStatus from '../models/player-status';
+import MutationType from './mutation-type';
+import InteractionType from '../enums/interaction-types';
+import PlayerStatus from '../enums/player-status';
 import { Person } from '../models/person';
 import { Location } from '../models/location';
 
 export default {
-  [mutationType.SELECT_SCENARIO]: (state, id) => { 
+  [MutationType.SELECT_SCENARIO]: (state, id) => { 
     const scenario = state.scenarios.find(s => id === s.id);
     state.current = { 
       ...state.current, 
       scenario,
-      interaction: interactionType.MOVEMENT,
+      interaction: InteractionType.MOVEMENT,
       location: new Location(scenario.locations.find(l => l.id === scenario.initLocation))
     };
   },
-  [mutationType.TRAVEL_TO_LOCATION]: (state, id) => {
+  [MutationType.TRAVEL_TO_LOCATION]: (state, id) => {
     // travel to location
     // add time
     // check for triggers
@@ -24,10 +24,10 @@ export default {
       status: PlayerStatus.IDLE, 
       minutesPassed: state.current.minutesPassed + 20,
       location,
-      interaction: interactionType.MOVEMENT,
+      interaction: InteractionType.MOVEMENT,
     };
   },
-  [mutationType.CONFIRM_TRAVEL_TO_LOCATION]: (state, id) => {
+  [MutationType.CONFIRM_TRAVEL_TO_LOCATION]: (state, id) => {
   
     // TODO: This should be different from above...
     const location = state.current.scenario.locations.find(l => l.id === id);
@@ -36,11 +36,11 @@ export default {
       status: PlayerStatus.IDLE, 
       minutesPassed: state.current.minutesPassed + 20,
       location,
-      interaction: interactionType.MOVEMENT,
+      interaction: InteractionType.MOVEMENT,
     };
 
   },
-  [mutationType.INVESTIGATE_OBJECT]: (state, id) => {
+  [MutationType.INVESTIGATE_OBJECT]: (state, id) => {
     // find object at location
     // if not, display a fall back message
     // otherwise,
@@ -62,10 +62,10 @@ export default {
 
     // check for triggers tripped
   },
-  [mutationType.FIND_CLUE]: () => {
+  [MutationType.FIND_CLUE]: () => {
 
   },
-  [mutationType.START_CONVERSATION]: (state, id) => {
+  [MutationType.START_CONVERSATION]: (state, id) => {
     // find user at this location
     // check for required triggers
     // if anyhting fails, enter a different state
@@ -83,36 +83,36 @@ export default {
       ...state.current,
       status: PlayerStatus.QUESTIONING,
       person: new Person(person),
-      interaction: interactionType.PERSON,
+      interaction: InteractionType.PERSON,
     };
   },
-  [mutationType.STOP_CONVERSATION]: (state) => {
+  [MutationType.STOP_CONVERSATION]: (state) => {
     state.current.person = null;
     state.current.status = PlayerStatus.IDLE;
     state.current.interaction = null;
   },
-  [mutationType.ASK_QUESTION]: (state, code) => {
+  [MutationType.ASK_QUESTION]: (state, code) => {
     console.log(`Currently talking to: ${ state.current.person.id}`);
     console.log(`Asking about: ${code}`)
     const question = state.current.person.askAboutTopic(code);
     state.current = {
       ...state.current,
       question,
-      interaction: interactionType.QUESTION,
+      interaction: InteractionType.QUESTION,
     };
   },
-  [mutationType.CLEAR_QUESTION]: (state) => {
+  [MutationType.CLEAR_QUESTION]: (state) => {
     state.current = {
       ...state.current,
       question: null,
       interaction: null,
     };
   },
-  [mutationType.ANSWER_QUESTION]: () => {
+  [MutationType.ANSWER_QUESTION]: () => {
 
   },
 
-  [mutationType.RESUME]: (state) => {
+  [MutationType.RESUME]: (state) => {
     state.current.question = null;
     state.current.interaction = null;
   },

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import * as actionType from '../store/action-types';
+import ActionType from '../store/action-type';
 
 export default {
   data() {
@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     scan() {
-      this.$store.dispatch(actionType.SCAN_QR, this.code);
+      this.$store.dispatch(ActionType.SCAN_QR, this.code);
       this.code = 'lnd1_';
     },
   }

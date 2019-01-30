@@ -22,10 +22,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import * as actionType from '../store/action-types';
-import * as interactionType from '../models/interaction-types';
+import ActionType from '../store/action-type';
+import InteractionType from '../enums/interaction-types';
 import * as utils from '../helpers/utils';
-import * as qrType from '../models/qr-types';
+import QRType from '../enums/qr-types';
 
 export default {
   data() {
@@ -39,33 +39,31 @@ export default {
       'personById',
       'question',
       'triggers',
-      'personByCode'
+      'personByCode',
     ]),
   },
   methods: {
-    isQuestion(type) { return type === interactionType.QUESTION},
-    isMovement(type) { return type === interactionType.MOVEMENT},
-    isPerson(type) { return type === interactionType.PERSON},
+    isQuestion(type) { return type === InteractionType.QUESTION},
+    isMovement(type) { return type === InteractionType.MOVEMENT},
+    isPerson(type) { return type === InteractionType.PERSON},
     getQuestionTopic(code) {
       console.log('[getQuestionTopic]');
       console.log('[code]', code);
       console.log(`${utils.getQRType(code)}`)
 
       switch (utils.getQRType(code)) {
-        case qrType.PERSON:
+        case QRType.PERSON:
           console.log('fetching person from state with [personByCode] getter')
           return this.personByCode(code);
-          break;
-        case qrType.ITEM:
+        case QRType.ITEM:
           return this.userItemByCode(code);
-          break;
         default:
           return {};
       }
 
     },
     resume() {
-      this.$store.commit(actionType.RESUME)
+      this.$store.commit(ActionType.RESUME)
     },
   }
 }

@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import * as statusType from '../models/player-status';
+import PlayerStatus from '../enums/player-status';
 
 export default {
   data() {
@@ -21,8 +21,8 @@ export default {
     ]),
   },
   methods: {
-    isIdle: (status) => status === statusType.IDLE, 
-    isQuestioning: (status) => { return status === statusType.QUESTIONING },
+    isIdle: (status) => status === PlayerStatus.IDLE, 
+    isQuestioning: (status) => { return status === PlayerStatus.QUESTIONING },
   }
 }
 </script>

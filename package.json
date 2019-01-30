@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@egjs/view360": "^3.2.1-rc",
+    "enumify": "^1.0.4",
     "hammerjs": "^2.0.8",
     "three": "^0.100.0",
     "vue": "^2.5.21",

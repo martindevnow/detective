@@ -1,4 +1,4 @@
-import * as PlayerStatus from '../models/player-status';
+import PlayerStatus from '../enums/player-status';
 
 /**
  * Types of Cards to Scan:

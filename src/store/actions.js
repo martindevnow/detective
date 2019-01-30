@@ -1,25 +1,25 @@
-import * as actionType from './action-types';
-import * as mutationType from './mutation-types';
+import ActionType from './action-type';
+import MutationType from './mutation-type';
 
-import * as PlayerStatus from '../models/player-status';
+import PlayerStatus from '../enums/player-status';
 import * as utils from '../helpers/utils';
-import * as qrType from '../models/qr-types';
+import QRType from '../enums/qr-types';
 
 export default {
-  [actionType.SELECT_SCENARIO]: ({ commit }, id) => {
-    commit(mutationType.SELECT_SCENARIO, id);
+  [ActionType.SELECT_SCENARIO]: ({ commit }, id) => {
+    commit(MutationType.SELECT_SCENARIO, id);
   },
-  [actionType.SCAN_QR]: ({dispatch, state}, code) => {
+  [ActionType.SCAN_QR]: ({dispatch, state}, code) => {
     console.log(`[current.status] = ${state.current.status}`)
     switch (state.current.status) {
       case PlayerStatus.IDLE:
-        dispatch(actionType.SCAN_QR_IDLE, code);
+        dispatch(ActionType.SCAN_QR_IDLE, code);
         break;
       case PlayerStatus.QUESTIONING: 
-        dispatch(actionType.SCAN_QR_QUESTIONING, code);
+        dispatch(ActionType.SCAN_QR_QUESTIONING, code);
         break;
       case PlayerStatus.SOLVING:
-        dispatch(actionType.SCAN_QR_SOLVING, code);
+        dispatch(ActionType.SCAN_QR_SOLVING, code);
         break;
       case PlayerStatus.SEARCHING:
       default:
@@ -27,50 +27,50 @@ export default {
         break;          
     }
   },
-  [actionType.SCAN_QR_IDLE]: ({commit}, code) => {
+  [ActionType.SCAN_QR_IDLE]: ({commit}, code) => {
     switch (utils.getQRType(code)) {
-      case qrType.LOCATION:
-        commit(mutationType.TRAVEL_TO_LOCATION, code);
+      case QRType.LOCATION:
+        commit(MutationType.TRAVEL_TO_LOCATION, code);
         break;
-      case qrType.ITEM:
-        commit(mutationType.INVESTIGATE_OBJECT, code);
+      case QRType.ITEM:
+        commit(MutationType.INVESTIGATE_OBJECT, code);
         break;
-      case qrType.PERSON:
-        commit(mutationType.START_CONVERSATION, code);
+      case QRType.PERSON:
+        commit(MutationType.START_CONVERSATION, code);
         break;
     }
   },
-  [actionType.SCAN_QR_QUESTIONING]: ({commit}, code) => {
+  [ActionType.SCAN_QR_QUESTIONING]: ({commit}, code) => {
     switch (utils.getQRType(code)) {
-      case qrType.LOCATION:
-        commit(mutationType.CONFIRM_TRAVEL_TO_LOCATION, code);
+      case QRType.LOCATION:
+        commit(MutationType.CONFIRM_TRAVEL_TO_LOCATION, code);
         break;
-      case qrType.ITEM:
-      case qrType.SPECIAL:
-      case qrType.PERSON:
-        commit(mutationType.ASK_QUESTION, code);
+      case QRType.ITEM:
+      case QRType.SPECIAL:
+      case QRType.PERSON:
+        commit(MutationType.ASK_QUESTION, code);
         break;
     }
   },
-  [actionType.SCAN_QR_SOLVING]: ({commit}, code) => {
+  [ActionType.SCAN_QR_SOLVING]: ({commit}, code) => {
     switch (utils.getQRType(code)) {
-      case qrType.LOCATION:
-      case qrType.ITEM:
-      case qrType.SPECIAL:
-      case qrType.PERSON:
-        commit(mutationType.ANSWER_QUESTION, code);
+      case QRType.LOCATION:
+      case QRType.ITEM:
+      case QRType.SPECIAL:
+      case QRType.PERSON:
+        commit(MutationType.ANSWER_QUESTION, code);
         break;
     }
   },
-  [actionType.RESUME]: ({state, commit}) => {
+  [ActionType.RESUME]: ({state, commit}) => {
     switch(state.current.status) {
       case PlayerStatus.QUESTIONING:
-        commit(mutationType.STOP_CONVERSATION);
+        commit(MutationType.STOP_CONVERSATION);
         break;
     }
     commit();
   },
-  [actionType.SEARCH_FOR_CLUES]: ({state}) => {
+  [ActionType.SEARCH_FOR_CLUES]: ({state}) => {
     const navTo = {name: 'survey', params: { 
       id: state.current.scenario.id, 
       location: state.current.location.id 
