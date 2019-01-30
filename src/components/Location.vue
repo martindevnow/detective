@@ -1,10 +1,9 @@
 <template>
   <div class="location">
 
-    <h2>{{ location.name }}</h2>
+    <location-status></location-status>
 
     <div class="location-body">
-      <p>{{ location.initDescription }}</p>
       <div class="center-screen">
         <div class="qr-window" :class="{active: qrActive}">
           <div class="qr-activator"
@@ -22,10 +21,9 @@
 
       <fake-scanner></fake-scanner>
 
-      <button v-if="canSearchCurrentLocation" @click="searchForClues()">Search for Clues</button>
+      <location-actions></location-actions>
   
     </div>
-
 
   </div>
 </template>
@@ -33,11 +31,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import FakeScanner from '../components/FakeScanner.vue';
+import LocationActions from '../components/LocationActions.vue';
+import LocationStatus from '../components/LocationStatus.vue';
 import * as actionType from '../store/action-types';
 
 export default {
   components: {
     FakeScanner,
+    LocationStatus,
+    LocationActions,
   },
   data() {
     return {
@@ -58,11 +60,9 @@ export default {
       this.$store.dispatch(actionType.RESUME);
     },
     onTouch(e) {
-      console.log('onTouch', e)
       this.qrActive = true;
     },
     onTouchEnd(e) {
-      console.log('onTouchEnd', e)
       this.qrActive = false;
     },
     onDecodeQR(txt) {
@@ -70,13 +70,9 @@ export default {
         return;
       }
       this.$store.dispatch(actionType.SCAN_QR, txt);
-      console.log(`QR Code Scanned: ${txt}`);
       this.qrActive = false;
     },
-    searchForClues() {
-      this.$store.dispatch(actionType.SEARCH_FOR_CLUES);
 
-    }
   }
 }
 </script>

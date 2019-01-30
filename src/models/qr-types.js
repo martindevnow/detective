@@ -1,4 +1,4 @@
-export const CHARACTER = 'CHARACTER';
+export const PERSON = 'PERSON';
 export const LOCATION = 'LOCATION';
 export const ITEM = 'ITEM';
 export const SPECIAL = 'SPECIAL';

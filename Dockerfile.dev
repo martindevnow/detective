@@ -3,6 +3,7 @@ FROM node:9.11.1 as devBuild
 ## Set ENV Variables in the Image
 ENV NODE_ENV=development
 ENV PORT=8085
+ENV BABEL_DISABLE_CACHE=1
 
 ## Prep node_modules
 COPY package*.json /tmp/

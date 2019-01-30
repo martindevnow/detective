@@ -1,7 +1,8 @@
 import { Question, fromFallback } from "./question";
+import { Greeting } from "./greeting";
 
 /**
- * Characters:
+ * People:
  * 
  * lnd1_c01
  * ...
@@ -13,14 +14,15 @@ export class Person {
 
   /**
    * Person Interface
-   * @param {id, name, fallback, questions} init 
+   * @param {id, name, fallback, questions, greetings} init 
    */
 
-  constructor({id, name, fallback, questions}){
+  constructor({id, name, fallback, questions, greetings}){
     this.id = id;
     this.name = name;
     this.fallback = fallback;
     this.questions = questions && questions.map(q => new Question(q, this.id));
+    this.greetings = greetings && greetings.map(q => new Greeting(q, this.id));
   }
 
   askAboutTopic(topic, triggers){
@@ -38,6 +40,15 @@ export class Person {
       return fromFallback(topic, this.fallback);
     }
 
-    return enabledQuestions[0].response;
+    return enabledQuestions[0];
+  }
+
+  getGreeting(triggers) {
+    const enabledGreetings = this.greetings
+      .map(g => new Greeting(g, this.id))
+      .filter(g => g.isEnabled(triggers))
+      .sort((a, b) => b.length - a.length);
+
+    return enabledGreetings[0];
   }
 }

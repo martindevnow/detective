@@ -30,7 +30,7 @@ export default {
     person: {},
     minutesPassed: 0,
     question: null,
-    response: '',
+    interaction: null,
   },
   scenarios: [
     { 
@@ -49,13 +49,20 @@ export default {
               id: 'lnd1_c01', 
               name: 'Captain Murphy', 
               fallback: `I can't be doing your job for you. Get out in the field and find out!`,
+              greetings: [
+                {
+                  enablingTriggers: [],
+                  disablingTriggers: [],
+                  body: `Thank god you're finally here. It's been a shit show since the mayor's daughter has been kidnapped. I've been calling your phone all morning. She was reported missing at 6:35AM. She could be anywhere by now.`
+                }
+              ],
               questions: [
                 { 
                   topic: 'lnd1_c02',
                   enablingTriggers: [],
                   disablingTriggers: [],
                   causesTriggers: [],
-                  response: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
+                  answer: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
                 },
 
               ]
@@ -72,27 +79,44 @@ export default {
               id: 'lnd1_i01', 
               name: 'Chef Knife', 
               causesTriggers: [],
-              info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.` ,
+              info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.`,
             },
           ],
           people: [
             { 
               id: 'lnd1_c02', 
               name: 'Miss Veeveeon', 
-              fallback: `Honestly, stupid questions don't deserve a response..`,
+              fallback: `Honestly, stupid questions don't deserve a answer..`,
+              greetings: [
+                {
+                  enablingTriggers: [],
+                  disablingTriggers: [],
+                  body: `What do you want?? Make it quick!`,
+                }
+              ],
               questions: [
                 { 
                   topic: 'lnd1_i01', 
                   pretriggers: [], 
                   triggers: null,     
-                  response: `I like to cook.` 
+                  answer: `I like to cook.`,
                 },
               ]
             },
             { 
               id: 'lnd1_c03', 
               name: 'Mr Martin', 
-              fallback: `I see too many faces on a daily basis to remember everyone I encounter.` 
+              fallback: `I see too many faces on a daily basis to remember everyone I encounter.`,
+              greetings: [
+                {
+                  enablingTriggers: [],
+                  disablingTriggers: [],
+                  body: `What can I do for you?`
+                }
+              ],
+              questions: [
+
+              ],
             },
           ]
         },
@@ -107,8 +131,8 @@ export default {
           name: 'Lab Tech', 
           fallback: `I wasn't able to find anything of any significance to the case.`,
           questions: [
-            { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [], triggers: 1,        response: `Wow, looks like this could do some damage. It'll take some time to analyze. Call back in an hour.` },
-            { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [1, 2], triggers: null, response: `The results of the analysis are in. It seems there are 2 sets of fingerprints. One set belogs to the victim, and the other set is not in our database. The blood belogs to our victim. Hope this was informative!` },
+            { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [], triggers: 1,        answer: `Wow, looks like this could do some damage. It'll take some time to analyze. Call back in an hour.` },
+            { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [1, 2], triggers: null, answer: `The results of the analysis are in. It seems there are 2 sets of fingerprints. One set belogs to the victim, and the other set is not in our database. The blood belogs to our victim. Hope this was informative!` },
           ],
         },
       ],

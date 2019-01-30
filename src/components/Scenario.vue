@@ -2,6 +2,7 @@
   <div class="scenario">
     
     <h2>{{ scenario.name }}</h2>
+    
     <p>{{ scenario.introText }}</p>
 
     <button @click="begin()">Begin</button>
@@ -13,9 +14,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   data() {
-    return {
-
-    };
+    return {};
   },
    computed: {
     ...mapGetters([
@@ -28,6 +27,5 @@ export default {
       this.$router.push({name: 'location', params: { id: this.scenario.id, location: this.location.id }});
     }
   }
-  
 }
 </script>

@@ -1,4 +1,5 @@
 import * as mutationType from './mutation-types';
+import * as interactionType from '../models/interaction-types';
 import * as PlayerStatus from '../models/player-status';
 import { Person } from '../models/person';
 import { Location } from '../models/location';
@@ -8,7 +9,8 @@ export default {
     const scenario = state.scenarios.find(s => id === s.id);
     state.current = { 
       ...state.current, 
-      scenario, 
+      scenario,
+      interaction: interactionType.MOVEMENT,
       location: new Location(scenario.locations.find(l => l.id === scenario.initLocation))
     };
   },
@@ -21,7 +23,8 @@ export default {
       ...state.current, 
       status: PlayerStatus.IDLE, 
       minutesPassed: state.current.minutesPassed + 20,
-      location 
+      location,
+      interaction: interactionType.MOVEMENT,
     };
   },
   [mutationType.CONFIRM_TRAVEL_TO_LOCATION]: (state, id) => {
@@ -32,7 +35,8 @@ export default {
       ...state.current, 
       status: PlayerStatus.IDLE, 
       minutesPassed: state.current.minutesPassed + 20,
-      location 
+      location,
+      interaction: interactionType.MOVEMENT,
     };
 
   },
@@ -79,10 +83,13 @@ export default {
       ...state.current,
       status: PlayerStatus.QUESTIONING,
       person: new Person(person),
+      interaction: interactionType.PERSON,
     };
   },
-  [mutationType.STOP_CONVERSATION]: () => {
-
+  [mutationType.STOP_CONVERSATION]: (state) => {
+    state.current.person = null;
+    state.current.status = PlayerStatus.IDLE;
+    state.current.interaction = null;
   },
   [mutationType.ASK_QUESTION]: (state, code) => {
     console.log(`Currently talking to: ${ state.current.person.id}`);
@@ -91,14 +98,14 @@ export default {
     state.current = {
       ...state.current,
       question,
-      response: question.response,
+      interaction: interactionType.QUESTION,
     };
   },
-  [mutationType.CLEAR_RESPONSE]: (state) => {
+  [mutationType.CLEAR_QUESTION]: (state) => {
     state.current = {
       ...state.current,
-      question: {},
-      response: '',
+      question: null,
+      interaction: null,
     };
   },
   [mutationType.ANSWER_QUESTION]: () => {
@@ -107,7 +114,7 @@ export default {
 
   [mutationType.RESUME]: (state) => {
     state.current.question = null;
-    state.current.response = '';
+    state.current.interaction = null;
   },
 
 };

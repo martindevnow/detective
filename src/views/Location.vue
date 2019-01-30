@@ -1,7 +1,7 @@
 <template>
   <div class="location">
-    <location-component v-if="!  question"></location-component>
-    <response-component v-if="!! question"></response-component>
+    <location-component v-if="!  interaction"></location-component>
+    <response-component v-if="!! interaction"></response-component>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'question',
+      'interaction',
     ]),
   }
 }

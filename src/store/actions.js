@@ -35,20 +35,19 @@ export default {
       case qrType.ITEM:
         commit(mutationType.INVESTIGATE_OBJECT, code);
         break;
-      case qrType.CHARACTER:
+      case qrType.PERSON:
         commit(mutationType.START_CONVERSATION, code);
         break;
     }
   },
   [actionType.SCAN_QR_QUESTIONING]: ({commit}, code) => {
-    console.log(`[getQRType(${code})] = ${utils.getQRType(code)}`)
     switch (utils.getQRType(code)) {
       case qrType.LOCATION:
         commit(mutationType.CONFIRM_TRAVEL_TO_LOCATION, code);
         break;
       case qrType.ITEM:
       case qrType.SPECIAL:
-      case qrType.CHARACTER:
+      case qrType.PERSON:
         commit(mutationType.ASK_QUESTION, code);
         break;
     }
@@ -58,7 +57,7 @@ export default {
       case qrType.LOCATION:
       case qrType.ITEM:
       case qrType.SPECIAL:
-      case qrType.CHARACTER:
+      case qrType.PERSON:
         commit(mutationType.ANSWER_QUESTION, code);
         break;
     }
@@ -66,7 +65,7 @@ export default {
   [actionType.RESUME]: ({state, commit}) => {
     switch(state.current.status) {
       case PlayerStatus.QUESTIONING:
-        commit(mutationType.CLEAR_RESPONSE);
+        commit(mutationType.STOP_CONVERSATION);
         break;
     }
     commit();

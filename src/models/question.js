@@ -2,15 +2,15 @@ export class Question {
 
   /**
    * Question Interface
-   * @param {topic, enablingTriggers, disablingTriggers, causesTriggers, response} init 
+   * @param {topic, enablingTriggers, disablingTriggers, causesTriggers, answer} init 
    */
 
-  constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, response}, personId) {
+  constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, answer}, personId) {
     this.topic = topic;
     this.enablingTriggers = enablingTriggers;
     this.disablingTriggers = disablingTriggers;
     this.causesTriggers = causesTriggers;
-    this.response = response;
+    this.answer = answer;
     this.personId = personId;
   }
 
@@ -37,7 +37,7 @@ export class Question {
 }
 
 /** 
- * Factory Function fron Person's Fallback Response 
+ * Factory Function fron Person's Fallback Answer 
  * (when asked about any topic)
  */
 export const fromFallback = (topic, person) => {
@@ -46,6 +46,6 @@ export const fromFallback = (topic, person) => {
     enablingTriggers: [],
     disablingTriggers: [],
     causesTriggers: [],
-    response: person.fallback,
+    answer: person.fallback,
   }, person.id);
 }

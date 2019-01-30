@@ -1,6 +1,6 @@
 import * as qrTypes from '../models/qr-types';
 
-export const isCharacter = (qrText) => {
+export const isPerson = (qrText) => {
   return qrText.slice(0,6) === 'lnd1_c';
 }
 
@@ -21,8 +21,8 @@ export const isSpecial = (qrText) => {
 }
 
 export const getQRType = (qrText) => {
-  if (isCharacter(qrText)) {
-    return qrTypes.CHARACTER;
+  if (isPerson(qrText)) {
+    return qrTypes.PERSON;
   }
   if (isItem(qrText)) {
     return qrText.ITEM;
