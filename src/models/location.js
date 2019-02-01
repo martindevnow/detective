@@ -23,14 +23,15 @@ import { Item } from "./item";
 
 export class Location {
 
-  constructor({id, name, initDescription, search, people, items}) {
-    if (!id || !name ||!initDescription || !search) {
-      throw new Error('[Location] requires ID, Name, initDescription and search to be defined.')
+  constructor({id, name, body, search, people, items}) {
+    if (!id || !name ||!body || !search) {
+      console.error({id, name, body, search, people, items});
+      throw new Error('[Location] requires ID, Name, body and search to be defined.')
     }
 
     this.id = id;
     this.name = name;
-    this.initDescription = initDescription;
+    this.body = body;
     this.search = search;
     this.people = people && people.map(p => new Person(p));
     this.items = items && items.map(i => new Item(i));

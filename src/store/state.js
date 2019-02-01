@@ -1,4 +1,4 @@
-import PlayerStatus from '../enums/player-status';
+import * as PlayerStatus from '../enums/player-status';
 
 import fearOfTheLiving from './scenarios/fear-of-the-living';
 /**
@@ -31,7 +31,9 @@ export default {
     person: {},
     minutesPassed: 0,
     question: null,
-    interaction: null,
+    interactions: [],
+    interactionContent: [],
+    interactionContentIndex: 0,
   },
   scenarios: [
     fearOfTheLiving,

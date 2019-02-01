@@ -18,8 +18,8 @@ export default {
       name: 'Lab Tech', 
       fallback: `I wasn't able to find anything of any significance to the case.`,
       questions: [
-        { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [], triggers: 1,        answer: `Wow, looks like this could do some damage. It'll take some time to analyze. Call back in an hour.` },
-        { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [1, 2], triggers: null, answer: `The results of the analysis are in. It seems there are 2 sets of fingerprints. One set belogs to the victim, and the other set is not in our database. The blood belogs to our victim. Hope this was informative!` },
+        { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [], triggers: 1,        body: `Wow, looks like this could do some damage. It'll take some time to analyze. Call back in an hour.` },
+        { suspect: 'lnd1_lab', topic: 'lnd1_i01', pretriggers: [1, 2], triggers: null, body: `The results of the analysis are in. It seems there are 2 sets of fingerprints. One set belogs to the victim, and the other set is not in our database. The blood belogs to our victim. Hope this was informative!` },
       ],
     },
   ],

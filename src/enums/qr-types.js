@@ -1,12 +1,5 @@
-import {Enum} from 'enumify';
-
-class QRType extends Enum {}
-QRType.initEnum([
-  'PERSON', 
-  'LOCATION', 
-  'ITEM', 
-  'SPECIAL',
-  'EVIDENCE',
-]);
-
-export default QRType;
+export const PERSON = 'PERSON'; 
+export const LOCATION = 'LOCATION'; 
+export const ITEM = 'ITEM'; 
+export const SPECIAL = 'SPECIAL';
+export const EVIDENCE = 'EVIDENCE';

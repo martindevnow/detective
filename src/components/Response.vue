@@ -3,29 +3,29 @@
 
     <div class="question" v-if="isQuestion(interaction)">
       <div class="subject">Asked {{ personById(question.personId).name }} about {{ getQuestionTopic(question.topic).name }}</div>
-      <div class="description">"{{ question.answer }}"</div>
+      <div class="description">"{{ interactionContentPage }}"</div>
     </div>
 
     <div class="movement" v-if="isMovement(interaction)">
       <div class="subject">You walk into {{ location.name }}</div>
-      <div class="description">{{ location.initDescription }}</div>
+      <div class="description">{{ interactionContentPage }}</div>
     </div>
 
     <div class="person" v-if="isPerson(interaction)">
       <div class="subject">Currently speaking to {{ person.name }}</div>
-      <div class="description">"{{ person.getGreeting().body }}"</div>
+      <div class="description">"{{ interactionContentPage }}"</div>
     </div>
 
-    <button @click="resume()">Continue</button>
+    <button @click="resume()">Continue ({{ interactionContentIndex + 1}} / {{ interactionContent && interactionContent.length }})</button>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import ActionType from '../store/action-type';
-import InteractionType from '../enums/interaction-types';
+import * as ActionType from '../store/action-type';
+import * as InteractionType from '../enums/interaction-types';
 import * as utils from '../helpers/utils';
-import QRType from '../enums/qr-types';
+import * as QRType from '../enums/qr-types';
 
 export default {
   data() {
@@ -34,6 +34,9 @@ export default {
   computed: {
     ...mapGetters([
       'interaction',
+      'interactionContent',
+      'interactionContentIndex',
+      'interactionContentPage',
       'location',
       'person',
       'personById',
@@ -63,7 +66,7 @@ export default {
 
     },
     resume() {
-      this.$store.commit(ActionType.RESUME)
+      this.$store.dispatch(ActionType.CONTINUE_INTERACTION)
     },
   }
 }

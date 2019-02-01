@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PlayerStatus from '../enums/player-status';
+import * as PlayerStatus from '../enums/player-status';
 
 export default {
   data() {

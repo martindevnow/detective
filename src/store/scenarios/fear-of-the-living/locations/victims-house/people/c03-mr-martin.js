@@ -6,10 +6,16 @@ export default {
     {
       enablingTriggers: [],
       disablingTriggers: [],
-      body: `What can I do for you?`
+      body: [`What can I do for you?`],
     }
   ],
   questions: [
-
+    { 
+      topic: 'lnd1_c02',
+      enablingTriggers: [],
+      disablingTriggers: [],
+      causesTriggers: [],
+      body: [`She's quite the looker. A woman that beautiful not tied down yet, something must be up.`],
+    },
   ],
 };

@@ -1,11 +1,4 @@
-import {Enum} from 'enumify';
-
-class PlayerStatus extends Enum {}
-PlayerStatus.initEnum([
-  'IDLE', 
-  'QUESTIONING', 
-  'SEARCHING', 
-  'SOLVING',
-]);
-
-export default PlayerStatus;
+export const IDLE = 'IDLE';
+export const QUESTIONING = 'QUESTIONING';
+export const SEARCHING = 'SEARCHING'; 
+export const SOLVING = 'SOLVING';

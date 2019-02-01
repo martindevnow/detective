@@ -2,19 +2,21 @@ export class Question {
 
   /**
    * Question Interface
-   * @param {topic, enablingTriggers, disablingTriggers, causesTriggers, answer} init 
+   * @param {topic, enablingTriggers, disablingTriggers, causesTriggers, body} init 
    */
 
-  constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, answer}, personId) {
-    if (!topic || !answer || !personId) {
-      throw new Error('[Question] requires a topic, answer and personID');
+  constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, body}, personId) {
+
+    if (!topic || !body || !personId) {
+      console.error({topic, enablingTriggers, disablingTriggers, causesTriggers, body, personId});
+      throw new Error('[Question] requires a topic, body and personID');
     }
-    
+
     this.topic = topic;
     this.enablingTriggers = enablingTriggers;
     this.disablingTriggers = disablingTriggers;
     this.causesTriggers = causesTriggers;
-    this.answer = answer;
+    this.body = body;
     this.personId = personId;
   }
 
@@ -41,7 +43,7 @@ export class Question {
 }
 
 /** 
- * Factory Function fron Person's Fallback Answer 
+ * Factory Function fron Person's Fallback body 
  * (when asked about any topic)
  */
 export const fromFallback = (topic, person) => {
@@ -50,6 +52,6 @@ export const fromFallback = (topic, person) => {
     enablingTriggers: [],
     disablingTriggers: [],
     causesTriggers: [],
-    answer: person.fallback,
+    body: [person.fallback],
   }, person.id);
 }

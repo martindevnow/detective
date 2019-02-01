@@ -1,13 +1,14 @@
-import ActionType from './action-type';
-import MutationType from './mutation-type';
+import * as ActionType from './action-type';
+import * as MutationType from './mutation-type';
 
-import PlayerStatus from '../enums/player-status';
+import * as PlayerStatus from '../enums/player-status';
 import * as utils from '../helpers/utils';
-import QRType from '../enums/qr-types';
+import * as QRType from '../enums/qr-types';
 
 export default {
   [ActionType.SELECT_SCENARIO]: ({ commit }, id) => {
     commit(MutationType.SELECT_SCENARIO, id);
+    commit(MutationType.TRAVEL_TO_INITIAL_LOCATION);
   },
   [ActionType.SCAN_QR]: ({dispatch, state}, code) => {
     console.log(`[current.status] = ${state.current.status}`)
@@ -62,14 +63,26 @@ export default {
         break;
     }
   },
-  [ActionType.RESUME]: ({state, commit}) => {
+  [ActionType.SAY_GOODBYE]: ({state, commit}) => {
     switch(state.current.status) {
       case PlayerStatus.QUESTIONING:
         commit(MutationType.STOP_CONVERSATION);
         break;
     }
-    commit();
+    commit(MutationType.STOP_CONVERSATION);
   },
+
+  [ActionType.CONTINUE_INTERACTION]: ({state, commit}) => {
+    if (state.current.interactionContentIndex + 1 >= state.current.interactionContent.length) {
+      // this interaction is over
+      if (state.current.interactions.length > 1) {
+        return commit(MutationType.NEXT_INTERACTION);
+      }
+      return commit(MutationType.CLEAR_INTERACTIONS);
+    }
+    return commit(MutationType.CONTINUE_INTERACTION);
+  },
+
   [ActionType.SEARCH_FOR_CLUES]: ({state}) => {
     const navTo = {name: 'survey', params: { 
       id: state.current.scenario.id, 

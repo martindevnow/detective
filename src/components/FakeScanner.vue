@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ActionType from '../store/action-type';
+import * as ActionType from '../store/action-type';
 
 export default {
   data() {

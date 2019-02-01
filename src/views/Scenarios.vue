@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ActionType from '../store/action-type';
+import * as ActionType from '../store/action-type';
 
 export default {
   computed: {
@@ -27,7 +27,7 @@ export default {
     select (id) {
       this.$store.dispatch(ActionType.SELECT_SCENARIO, id);
       this.$router.push({name: 'scenario', params: { id }});
-    },
+    }
   }
 }
 </script>

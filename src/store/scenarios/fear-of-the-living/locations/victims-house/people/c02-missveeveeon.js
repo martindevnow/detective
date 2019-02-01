@@ -1,12 +1,12 @@
 export default { 
   id: 'lnd1_c02', 
   name: 'Miss Veeveeon', 
-  fallback: `Honestly, stupid questions don't deserve a answer..`,
+  fallback: `Honestly, stupid questions don't deserve a reply..`,
   greetings: [
     {
       enablingTriggers: [],
       disablingTriggers: [],
-      body: `What do you want?? Make it quick!`,
+      body: [`What do you want?? Make it quick!`,],
     }
   ],
   questions: [
@@ -14,7 +14,7 @@ export default {
       topic: 'lnd1_i01', 
       pretriggers: [], 
       triggers: null,     
-      answer: `I like to cook.`,
+      body: [`I like to cook.`,],
     },
   ]
 };

@@ -32,7 +32,7 @@ export class Person {
   askAboutTopic(topic, triggers){
     const questionsAboutTopic = this.questions.filter(q => q.topic === topic);
     if (! questionsAboutTopic) {
-      return fromFallback(topic, this.fallback);
+      return fromFallback(topic, this);
     }
 
     const enabledQuestions = questionsAboutTopic
@@ -41,7 +41,7 @@ export class Person {
       .sort((a, b) => b.length - a.length);
 
     if (!enabledQuestions.length) {
-      return fromFallback(topic, this.fallback);
+      return fromFallback(topic, this);
     }
 
     return enabledQuestions[0];

@@ -1,6 +1,5 @@
 import { Location } from "../models/location";
-// import * as utils from '../helpers/utils';
-import PlayerStatus from '../enums/player-status';
+import * as PlayerStatus from '../enums/player-status';
 
 export const scenarios = (state) => state.scenarios;
 export const scenario = (state) => state.current.scenario;
@@ -8,8 +7,13 @@ export const status = (state) => state.current.status;
 export const person = (state) => state.current.person;
 export const location = (state) => state.current.location;
 export const question = (state) => state.current.question;
-export const interaction = (state) => state.current.interaction;
+export const interaction = (state) => state.current.interactions && state.current.interactions.length && state.current.interactions[0];
+export const interactionContent = (state) => state.current.interactionContent;
+export const interactionContentIndex = (state) => state.current.interactionContentIndex;
+export const interactionContentPage = (state, getters) => getters.interactionContent && getters.interactionContent[state.current.interactionContentIndex]; 
+export const interactions = (state) => state.current.interactions;
 export const canSearchCurrentLocation = (state) => {
+  if (!location || location === {}) return false;
   const location = new Location(state.current.location);
   return location.canSearch(state.current.triggers);
 };

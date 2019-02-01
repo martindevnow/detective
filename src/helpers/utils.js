@@ -1,36 +1,36 @@
-import QRType from '../enums/qr-types';
+import * as QRType from '../enums/qr-types';
 
-export const isPerson = (qrText) => {
-  return qrText.slice(0,6) === 'lnd1_c';
+export const isPerson = (code) => {
+  return code.slice(0,6) === 'lnd1_c';
 }
 
-export const isEvidence = (qrText) => {
-  return isItem(qrText) || isSpecial(qrText);
+export const isEvidence = (code) => {
+  return isItem(code) || isSpecial(code);
 }
 
-export const isLocation = (qrText) => {
-  return qrText.slice(0, 6) === 'lnd1_l';
+export const isLocation = (code) => {
+  return code.slice(0, 6) === 'lnd1_l';
 }
 
-export const isItem = (qrText) => {
-  return qrText.slice(0,6) === 'lnd1_i';
+export const isItem = (code) => {
+  return code.slice(0,6) === 'lnd1_i';
 }
 
-export const isSpecial = (qrText) => {
-  return qrText.slice(0,6) === 'lnd1_s';
+export const isSpecial = (code) => {
+  return code.slice(0,6) === 'lnd1_s';
 }
 
-export const getQRType = (qrText) => {
-  if (isPerson(qrText)) {
+export const getQRType = (code) => {
+  if (isPerson(code)) {
     return QRType.PERSON;
   }
-  if (isItem(qrText)) {
+  if (isItem(code)) {
     return QRType.ITEM;
   }
-  if (isLocation(qrText)) {
+  if (isLocation(code)) {
     return QRType.LOCATION;
   }
-  if (isSpecial(qrText)) {
+  if (isSpecial(code)) {
     return QRType.SPECIAL;
   }
 }

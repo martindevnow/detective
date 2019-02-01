@@ -1,19 +1,25 @@
-import MutationType from './mutation-type';
-import InteractionType from '../enums/interaction-types';
-import PlayerStatus from '../enums/player-status';
+import * as MutationType from './mutation-type';
+import * as InteractionType from '../enums/interaction-types';
+import * as PlayerStatus from '../enums/player-status';
 import { Person } from '../models/person';
 import { Location } from '../models/location';
 
 export default {
   [MutationType.SELECT_SCENARIO]: (state, id) => { 
     const scenario = state.scenarios.find(s => id === s.id);
+    console.log(scenario);
     state.current = { 
       ...state.current, 
       scenario,
-      interaction: InteractionType.MOVEMENT,
       location: new Location(scenario.locations.find(l => l.id === scenario.initLocation))
     };
   },
+
+  [MutationType.TRAVEL_TO_INITIAL_LOCATION]: (state) => {
+    state.current.interactions.push(InteractionType.MOVEMENT);
+    state.current.interactionContent = state.current.location.body;
+  },
+
   [MutationType.TRAVEL_TO_LOCATION]: (state, id) => {
     // travel to location
     // add time
@@ -24,9 +30,10 @@ export default {
       status: PlayerStatus.IDLE, 
       minutesPassed: state.current.minutesPassed + 20,
       location,
-      interaction: InteractionType.MOVEMENT,
     };
+    state.current.interactions.push(InteractionType.MOVEMENT)
   },
+
   [MutationType.CONFIRM_TRAVEL_TO_LOCATION]: (state, id) => {
   
     // TODO: This should be different from above...
@@ -36,10 +43,10 @@ export default {
       status: PlayerStatus.IDLE, 
       minutesPassed: state.current.minutesPassed + 20,
       location,
-      interaction: InteractionType.MOVEMENT,
     };
-
+    state.current.interactions.push(InteractionType.MOVEMENT)
   },
+
   [MutationType.INVESTIGATE_OBJECT]: (state, id) => {
     // find object at location
     // if not, display a fall back message
@@ -62,9 +69,11 @@ export default {
 
     // check for triggers tripped
   },
+
   [MutationType.FIND_CLUE]: () => {
 
   },
+
   [MutationType.START_CONVERSATION]: (state, id) => {
     // find user at this location
     // check for required triggers
@@ -83,38 +92,67 @@ export default {
       ...state.current,
       status: PlayerStatus.QUESTIONING,
       person: new Person(person),
-      interaction: InteractionType.PERSON,
     };
+    state.current.interactions.push(InteractionType.PERSON)
+    if (state.current.interactions.length === 1) {
+      // add to content
+      state.current.interactionContent = state.current.person.getGreeting(state.current.triggers).body;
+      state.current.interactionContentIndex = 0;
+    }
   },
+
   [MutationType.STOP_CONVERSATION]: (state) => {
     state.current.person = null;
     state.current.status = PlayerStatus.IDLE;
-    state.current.interaction = null;
   },
+
   [MutationType.ASK_QUESTION]: (state, code) => {
-    console.log(`Currently talking to: ${ state.current.person.id}`);
-    console.log(`Asking about: ${code}`)
     const question = state.current.person.askAboutTopic(code);
     state.current = {
       ...state.current,
       question,
-      interaction: InteractionType.QUESTION,
     };
+    state.current.interactions.push(InteractionType.QUESTION);
+    if (state.current.interactions.length === 1) {
+      state.current.interactionContent = question.body;
+      state.current.interactionContentIndex = 0;
+    }
   },
-  [MutationType.CLEAR_QUESTION]: (state) => {
-    state.current = {
-      ...state.current,
-      question: null,
-      interaction: null,
-    };
-  },
+
   [MutationType.ANSWER_QUESTION]: () => {
 
   },
 
-  [MutationType.RESUME]: (state) => {
-    state.current.question = null;
-    state.current.interaction = null;
+  [MutationType.NEXT_INTERACTION]: (state) => {
+    console.log('current interactions', state.current.interactions)
+
+    // remove previous interaction
+    state.current.interactions = state.current.interactions.slice(1);
+    // reset index
+    state.current.interactionContentIndex = 0;
+
+    // load next interaction
+    if (state.current.interactions.length === 0) {
+      state.current.interactionContent = [];
+    } else {
+      state.current.interactionContent = state.current.interactions[0].body;
+    }
+    console.log('remaining interactions', state.current.interactions);
+  
   },
+
+  [MutationType.CONTINUE_INTERACTION]: (state) => {
+    // contnue to next page of this interaction
+    state.current.interactionContentIndex = state.current.interactionContentIndex + 1;
+  },
+
+  [MutationType.CLEAR_INTERACTIONS]: (state) => {
+    // remove all interactions
+    state.current.interactions = [];
+    // reset content
+    state.current.interactionContent = [];
+    // and index
+    state.current.interactionContentIndex = 0;
+  }
 
 };

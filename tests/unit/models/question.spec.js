@@ -16,7 +16,7 @@ describe('Question Model', () => {
         enablingTriggers: [],
         disablingTriggers: ['LOST_ITEM_ONE'],
         causesTriggers: [],     
-        answer: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
+        body: [`She's quite the looker. A woman that beautiful not tied down yet, something must be up.` ],
       }, mockPerson.id);
       expect(q.isDisabled(['LOST_ITEM_ONE'])).to.equal(true);
       expect(q.isDisabled([])).to.equal(false);
@@ -30,7 +30,7 @@ describe('Question Model', () => {
         enablingTriggers: ['FOUND_ITEM_ONE'],
         disablingTriggers: [],
         causesTriggers: [],     
-        answer: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
+        body: [`She's quite the looker. A woman that beautiful not tied down yet, something must be up.` ],
       }, mockPerson.id);
       expect(q.isDisabled(['FOUND_ITEM_ONE'])).to.equal(false);
       expect(q.isDisabled([])).to.equal(true);
@@ -44,7 +44,7 @@ describe('Question Model', () => {
         enablingTriggers: [],
         disablingTriggers: [],
         causesTriggers: [],     
-        answer: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
+        body: [`She's quite the looker. A woman that beautiful not tied down yet, something must be up.` ],
       }, mockPerson.id);
       expect(q.isDisabled(['LOST_ITEM_ONE'])).to.equal(false);
       expect(q.isDisabled([])).to.equal(false);
@@ -58,7 +58,7 @@ describe('Question Model', () => {
         enablingTriggers: ['FOUND_ITEM_ONE'],
         disablingTriggers: ['LOST_ITEM_ONE'],
         causesTriggers: [],     
-        answer: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
+        body: [`She's quite the looker. A woman that beautiful not tied down yet, something must be up.` ],
       }, mockPerson.id);
       expect(q.isDisabled(['FOUND_ITEM_ONE', 'LOST_ITEM_ONE'])).to.equal(true);
       expect(q.isDisabled(['LOST_ITEM_ONE'])).to.equal(true);
@@ -74,9 +74,9 @@ describe('Question Model', () => {
   
 
 describe('fromFallback Factory Function', () => {
-  it('creates a basic question from a fallback answer', () => {
+  it('creates a basic question from a fallback body', () => {
     const question = fromFallback('ABCD', mockPerson);
     expect(question.isEnabled([])).to.equal(true);
-    expect(question.answer).to.equal(mockPerson.fallback);
+    expect(question.body).to.equal(mockPerson.fallback);
   });
 });

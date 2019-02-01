@@ -6,7 +6,10 @@ export default {
     {
       enablingTriggers: [],
       disablingTriggers: [],
-      body: `Thank god you're finally here. It's been a shit show since the mayor's daughter has been kidnapped. I've been calling your phone all morning. She was reported missing at 6:35AM. She could be anywhere by now.`
+      body: [
+        `Thank god you're finally here. It's been a shit show since the mayor's daughter has been kidnapped.`, 
+        `I've been calling your phone all morning. She was reported missing at 6:35AM. She could be anywhere by now.`
+      ]
     }
   ],
   questions: [
@@ -15,7 +18,7 @@ export default {
       enablingTriggers: [],
       disablingTriggers: [],
       causesTriggers: [],
-      answer: `She's quite the looker. A woman that beautiful not tied down yet, something must be up.` 
+      body: [`She's quite the looker. A woman that beautiful not tied down yet, something must be up.`],
     },
 
   ]
