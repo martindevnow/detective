@@ -31,7 +31,11 @@ export default {
       minutesPassed: state.current.minutesPassed + 20,
       location,
     };
-    state.current.interactions.push(InteractionType.MOVEMENT)
+    state.current.interactions.push(InteractionType.MOVEMENT);
+    if (state.current.interactions.length === 1) {
+      state.current.interactionContent = location.body;
+      state.current.interactionContentIndex = 0;
+    }
   },
 
   [MutationType.CONFIRM_TRAVEL_TO_LOCATION]: (state, id) => {
@@ -44,7 +48,11 @@ export default {
       minutesPassed: state.current.minutesPassed + 20,
       location,
     };
-    state.current.interactions.push(InteractionType.MOVEMENT)
+    state.current.interactions.push(InteractionType.MOVEMENT);
+    if (state.current.interactions.length === 1) {
+      state.current.interactionContent = location.body;
+      state.current.interactionContentIndex = 0;
+    }
   },
 
   [MutationType.INVESTIGATE_OBJECT]: (state, id) => {
