@@ -18,6 +18,10 @@ export class Person {
    */
 
   constructor({id, name, fallback, questions, greetings}){
+    if (!id || !name || !fallback || !questions.length || !greetings.length) {
+      throw new Error('[Person] needs to have all fields defined when instantiated');
+    }
+
     this.id = id;
     this.name = name;
     this.fallback = fallback;

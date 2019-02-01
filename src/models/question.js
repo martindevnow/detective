@@ -6,6 +6,10 @@ export class Question {
    */
 
   constructor({topic, enablingTriggers, disablingTriggers, causesTriggers, answer}, personId) {
+    if (!topic || !answer || !personId) {
+      throw new Error('[Question] requires a topic, answer and personID');
+    }
+    
     this.topic = topic;
     this.enablingTriggers = enablingTriggers;
     this.disablingTriggers = disablingTriggers;

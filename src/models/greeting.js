@@ -1,6 +1,10 @@
 export class Greeting {
 
   constructor({enablingTriggers, disablingTriggers, body}, personId) {
+    if (!body || !personId) {
+      throw new Error('[Greeting] needs a body and a PersonID');
+    }
+
     this.enablingTriggers = enablingTriggers;
     this.disablingTriggers = disablingTriggers;
     this.body = body;
@@ -13,7 +17,7 @@ export class Greeting {
       return true;
     }
     // No triggers required for this Greeting
-    if (this.enablingTriggers.length === 0) {
+    if (! this.enablingTriggers || this.enablingTriggers.length === 0) {
       return false;
     }
     // User has every trigger required to get this Greeting

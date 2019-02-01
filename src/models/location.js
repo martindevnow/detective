@@ -24,6 +24,10 @@ import { Item } from "./item";
 export class Location {
 
   constructor({id, name, initDescription, search, people, items}) {
+    if (!id || !name ||!initDescription || !search) {
+      throw new Error('[Location] requires ID, Name, initDescription and search to be defined.')
+    }
+
     this.id = id;
     this.name = name;
     this.initDescription = initDescription;
@@ -41,7 +45,7 @@ export class Location {
       return false;
     }
     // No triggers required for this Search
-    if (this.search.enablingTriggers.length === 0) {
+    if (! this.search.enablingTriggers || this.search.enablingTriggers.length === 0) {
       return true;
     }
     // User has every trigger required to Search

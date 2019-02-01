@@ -1,5 +1,9 @@
 import { expect } from 'chai'
-import { mockPerson } from './person.mockData';
+import mockScenarioData from '../../../src/store/scenarios/mock-scenario';
+import { Scenario } from '../../../src/models/scenario';
+
+const mockScenario = new Scenario(mockScenarioData);
+const mockPerson = mockScenario.locations[0].people[0];
 
 describe('Person Class', () => {
   it('returns the proper question for NO trigger', () => {

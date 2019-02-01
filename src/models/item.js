@@ -43,6 +43,9 @@
 
 export class Item {
   constructor({id, name, info, causesTriggers}) {
+    if (!id || !name || !info) {
+      throw new Error('[Item] requires an ID, Name and Info');
+    }
     this.id = id;
     this.name = name;
     this.info = info;
