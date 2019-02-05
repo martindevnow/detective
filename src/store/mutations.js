@@ -4,6 +4,13 @@ import * as PlayerStatus from '../enums/player-status';
 import { Person } from '../models/person';
 import { Location } from '../models/location';
 
+const updateCurrentInteractions = (state, interaction) => {
+  if (state.current.interactions.length === 1) {
+    state.current.interactionContent = interaction.body;
+    state.current.interactionContentIndex = 0;
+  }
+};
+
 export default {
   [MutationType.SELECT_SCENARIO]: (state, id) => { 
     const scenario = state.scenarios.find(s => id === s.id);
@@ -31,10 +38,7 @@ export default {
       location,
     };
     state.current.interactions.push(InteractionType.MOVEMENT);
-    if (state.current.interactions.length === 1) {
-      state.current.interactionContent = location.body;
-      state.current.interactionContentIndex = 0;
-    }
+    updateCurrentInteractions(state, location);
   },
 
   [MutationType.CONFIRM_TRAVEL_TO_LOCATION]: (state, id) => {
@@ -48,10 +52,7 @@ export default {
       location,
     };
     state.current.interactions.push(InteractionType.MOVEMENT);
-    if (state.current.interactions.length === 1) {
-      state.current.interactionContent = location.body;
-      state.current.interactionContentIndex = 0;
-    }
+    updateCurrentInteractions(state, location);
   },
 
   [MutationType.INVESTIGATE_OBJECT]: (state, id) => {
@@ -101,11 +102,8 @@ export default {
       person: new Person(person),
     };
     state.current.interactions.push(InteractionType.PERSON)
-    if (state.current.interactions.length === 1) {
-      // add to content
-      state.current.interactionContent = state.current.person.getGreeting(state.current.triggers).body;
-      state.current.interactionContentIndex = 0;
-    }
+    const greeting = state.current.person.getGreeting(state.current.triggers);
+    updateCurrentInteractions(state, greeting);
   },
 
   [MutationType.STOP_CONVERSATION]: (state) => {
@@ -120,10 +118,7 @@ export default {
       question,
     };
     state.current.interactions.push(InteractionType.QUESTION);
-    if (state.current.interactions.length === 1) {
-      state.current.interactionContent = question.body;
-      state.current.interactionContentIndex = 0;
-    }
+    updateCurrentInteractions(state, question);
   },
 
   [MutationType.ANSWER_QUESTION]: () => {
