@@ -7,7 +7,6 @@ import { Location } from '../models/location';
 export default {
   [MutationType.SELECT_SCENARIO]: (state, id) => { 
     const scenario = state.scenarios.find(s => id === s.id);
-    console.log(scenario);
     state.current = { 
       ...state.current, 
       scenario,

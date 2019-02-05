@@ -5,15 +5,15 @@ export class Greeting {
       throw new Error('[Greeting] needs a body and a PersonID');
     }
 
-    this.enablingTriggers = enablingTriggers;
-    this.disablingTriggers = disablingTriggers;
+    this.enablingTriggers = enablingTriggers || null;
+    this.disablingTriggers = disablingTriggers || null;
     this.body = body;
     this.personId = personId;
   }
 
   isDisabled(triggers) {
     // User has a Trigger that disables this Greeting
-    if (this.disablingTriggers.some(disTrig => triggers.some(userTrig => userTrig === disTrig))) {
+    if (this.disablingTriggers && this.disablingTriggers.some(disTrig => triggers.some(userTrig => userTrig === disTrig))) {
       return true;
     }
     // No triggers required for this Greeting

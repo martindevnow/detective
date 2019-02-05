@@ -1,6 +1,7 @@
 import scotlandYard from './locations/scotland-yard';
 import victimsHouse from './locations/victims-house';
 import modelingAgency from './locations/modeling-agency';
+import triggers from './triggers';
 
 export default { 
   id: 1, 
@@ -24,10 +25,10 @@ export default {
     },
   ],
   events: [
-    { id: 1, name: 'Knife Analysis Completed', triggers: 2 },
+    { 
+      id: 'CLUE_FOUND_PEN', 
+      name: '', 
+      givesItems: ['lnd1_i01'] },
   ],
-  triggers: [
-    { id: 1, label: 'Knife Submitted for Analysis', causeEvent: 1,    delay: 60 },
-    { id: 2, label: 'Knife Analysis Complete',      causeEvent: null, delay: 0 }
-  ]
+  triggers
 };

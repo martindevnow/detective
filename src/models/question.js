@@ -22,11 +22,11 @@ export class Question {
 
   isDisabled(triggers) {
     // User has a Trigger that disables this Question
-    if (this.disablingTriggers.some(disTrig => triggers.some(userTrig => userTrig === disTrig))) {
+    if (this.disablingTriggers && this.disablingTriggers.some(disTrig => triggers.some(userTrig => userTrig === disTrig))) {
       return true;
     }
     // No triggers required for this Question
-    if (this.enablingTriggers.length === 0) {
+    if (!this.enablingTriggers || this.enablingTriggers.length === 0) {
       return false;
     }
     // User has every trigger required to get this Question

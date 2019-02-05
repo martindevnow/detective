@@ -11,7 +11,6 @@ export default {
     commit(MutationType.TRAVEL_TO_INITIAL_LOCATION);
   },
   [ActionType.SCAN_QR]: ({dispatch, state}, code) => {
-    console.log(`[current.status] = ${state.current.status}`)
     switch (state.current.status) {
       case PlayerStatus.IDLE:
         dispatch(ActionType.SCAN_QR_IDLE, code);
@@ -63,12 +62,9 @@ export default {
         break;
     }
   },
-  [ActionType.SAY_GOODBYE]: ({state, commit}) => {
-    switch(state.current.status) {
-      case PlayerStatus.QUESTIONING:
-        commit(MutationType.STOP_CONVERSATION);
-        break;
-    }
+  [ActionType.SAY_GOODBYE]: ({commit}) => {
+    // TODO: anything else required here?
+    // Maybe remove this action if it's not needed... just use mutation
     commit(MutationType.STOP_CONVERSATION);
   },
 
@@ -84,6 +80,8 @@ export default {
   },
 
   [ActionType.SEARCH_FOR_CLUES]: ({state}) => {
+    // TODO: Add in logic to prevent this ...
+    // ... if the location is not searchable
     const navTo = {name: 'survey', params: { 
       id: state.current.scenario.id, 
       location: state.current.location.id 

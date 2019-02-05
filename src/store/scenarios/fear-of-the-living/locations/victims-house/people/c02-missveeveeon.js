@@ -6,15 +6,16 @@ export default {
     {
       enablingTriggers: [],
       disablingTriggers: [],
-      body: [`What do you want?? Make it quick!`,],
+      body: [`What do you want?? Make it quick!`],
     }
   ],
   questions: [
     { 
       topic: 'lnd1_i01', 
-      pretriggers: [], 
+      enablingTriggers: ['FOUND_WOMANS_PEN'],
+      disablingTriggers: [],
       triggers: null,     
-      body: [`I like to cook.`,],
+      body: [`OMG! Yes! I gave this to my lover! Where did you find it???`],
     },
   ]
 };

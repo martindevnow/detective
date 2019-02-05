@@ -77,6 +77,6 @@ describe('fromFallback Factory Function', () => {
   it('creates a basic question from a fallback body', () => {
     const question = fromFallback('ABCD', mockPerson);
     expect(question.isEnabled([])).to.equal(true);
-    expect(question.body).to.equal(mockPerson.fallback);
+    expect(question.body).to.deep.equal([mockPerson.fallback]);
   });
 });
