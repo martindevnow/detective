@@ -1,8 +1,17 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
-    cy.visit('/')
-    cy.contains('h1', 'Welcome to Your Vue.js App')
-  })
-})
+describe('Select Scenario', () => {
+  it('Can select the scenario and it updates properly', () => {
+    cy.visit('/');
+    cy.contains('a', 'Scenarios').click();
+    cy.get('button').should('contain', 'Fear the Living');
+  });
+
+  it('Begins the Scenario', () => {
+    cy.visit('/');
+    cy.contains('a', 'Scenarios').click();
+    cy.get('button').click();
+    cy.get('button').click()
+    cy.contains('.subject', 'You walk into Scotland Yard')
+  });
+});

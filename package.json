@@ -21,7 +21,7 @@
     "start:ci": "docker run --rm martindevnow/${npm_package_name}_ci:latest npm run test:lint-unit",
     "comment:e2e": "# === e2e Testing Command === #",
     "build:cypress": "IMAGE_NAME=${npm_package_name} TAG={$TAG:=latest} docker-compose build cypress",
-    "start:cypress": "IMAGE_NAME=${npm_package_name} TAG=${TAG:=latest} docker-compose up"
+    "start:cypress": "IMAGE_NAME=${npm_package_name} TAG=${TAG:=latest} docker-compose up --abort-on-container-exit"
   },
   "dependencies": {
     "@egjs/view360": "^3.2.1-rc",
