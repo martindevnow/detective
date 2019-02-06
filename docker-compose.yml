@@ -8,9 +8,13 @@ services:
     command: >
       http-server -p 80 /app
   cypress:
+    command: >
+      ./node_modules/.bin/cypress run
     depends_on: 
       - web
     environment:
+      - TAG=${TAG}
+      - IMAGE_NAME=${IMAGE_NAME}
       - CYPRESS_baseUrl=http://web:80/
       - CYPRESS_browser=chrome
       - CYPRESS_screenshotsFolder=/results/${TAG}/screenshots

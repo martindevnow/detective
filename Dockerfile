@@ -11,7 +11,7 @@ RUN npm run build
 
 # Make production build
 FROM node:9.11.1 as prodBuild
-RUN npm install -g http-server-ssl
+RUN npm install -g http-server-ssl http-server
 WORKDIR /app
 COPY --from=builder /usr/src/app/dist .
 EXPOSE 80
