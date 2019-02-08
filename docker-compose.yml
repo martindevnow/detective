@@ -27,3 +27,6 @@ services:
       - type: bind
         source: ./results
         target: /results
+      - type: bind
+        source: ./tests
+        target: /e2e/tests

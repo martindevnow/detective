@@ -10,7 +10,6 @@ Vue.directive("touch", {
   bind: function(el, binding) {
     if (typeof binding.value === "function") {
       const mc = new Hammer(el);
-      // mc.get("press");
       mc.on("press", binding.value);
     }
   }
@@ -20,7 +19,6 @@ Vue.directive("touchend", {
   bind: function(el, binding) {
     if (typeof binding.value === "function") {
       const mc = new Hammer(el);
-      // mc.get("pressup");
       mc.on("pressup", binding.value);
       mc.on("panend", binding.value);
       mc.on("pancancel", binding.value);
@@ -31,8 +29,12 @@ Vue.directive("touchend", {
 Vue.config.productionTip = false
 Vue.use(VueQrcodeReader);
 
-new Vue({
+const app = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+if (window.Cypress) {
+  window.app = app;
+}

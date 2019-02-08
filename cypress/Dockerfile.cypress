@@ -12,7 +12,8 @@ COPY ./cypress/cypress.json /e2e
 COPY ./cypress/tsconfig.json /e2e
 
 # Copy tests
-COPY ./tests ./tests
+# Changed to volumes... testing...
+# COPY ./tests ./tests
 
 # Run tests
 CMD ["./node_modules/.bin/cypress", "run" ]
