@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <router-view/>
+    <user-stats></user-stats>
   </div>
 </template>
 
 <script>
+import UserStats from './components/UserStats.vue'
 export default {
-  methods: {
-    onDecode: (txt) => {
-      alert(txt);
-    }
+  components: {
+    UserStats,
   }
 }
 </script>

@@ -2,8 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import ErrorNotFound from '../views/ErrorNotFound.vue'
+import store from '../store';
 
 Vue.use(Router)
+
+const requireScenario = (to, from, next) => {
+  if (store.state.current.scenario.name ) {
+    next();
+  } else {
+    next('/scenarios');
+  }
+};
 
 export default new Router({
   mode: 'hash',
@@ -24,6 +33,7 @@ export default new Router({
     },
     {
       path: '/scenario/:id',
+      beforeEnter: requireScenario,
       component: () => import(/* webpackChunkName: "scenarioView" */ '../views/Scenario.vue'),
       children: [
         { 

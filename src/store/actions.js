@@ -27,7 +27,7 @@ export default {
         break;          
     }
   },
-  [ActionType.SCAN_QR_IDLE]: ({commit}, code) => {
+  [ActionType.SCAN_QR_IDLE]: ({commit, dispatch}, code) => {
     switch (utils.getQRType(code)) {
       case QRType.LOCATION:
         commit(MutationType.TRAVEL_TO_LOCATION, code);
@@ -37,10 +37,11 @@ export default {
         break;
       case QRType.PERSON:
         commit(MutationType.START_CONVERSATION, code);
+        dispatch(ActionType.CHECK_FOR_TRIGGERS, { type: 'GREETING', code });
         break;
     }
   },
-  [ActionType.SCAN_QR_QUESTIONING]: ({commit}, code) => {
+  [ActionType.SCAN_QR_QUESTIONING]: ({commit, dispatch}, code) => {
     switch (utils.getQRType(code)) {
       case QRType.LOCATION:
         commit(MutationType.CONFIRM_TRAVEL_TO_LOCATION, code);
@@ -49,6 +50,7 @@ export default {
       case QRType.SPECIAL:
       case QRType.PERSON:
         commit(MutationType.ASK_QUESTION, code);
+        dispatch(ActionType.CHECK_FOR_TRIGGERS, { type: 'QUESTION', code });
         break;
     }
   },
@@ -92,5 +94,43 @@ export default {
       this.isSurveying = false;
       this.$router.back();
     }, 15000);
+  },
+
+  [ActionType.CHECK_FOR_TRIGGERS]: ({commit, state}, { type, code }) => {
+    const existingTriggers = state.current.triggers;
+    let question;
+    let greeting;
+    let triggerIds;
+
+    // Trigger when greeting someone
+    switch (type) {
+      // Trigger when greeting someone
+      case "GREETING":
+        greeting = state.current.person.getGreeting(existingTriggers);
+        triggerIds = greeting.causesTriggers.filter(qt => {
+          return existingTriggers.indexOf(qt.id) === -1;
+        });
+        break;
+      // Trigger when asking a question
+      case "QUESTION":
+        question = state.current.person.askAboutTopic(code, existingTriggers);
+        triggerIds = question.causesTriggers.filter(qt => {
+          return existingTriggers.indexOf(qt.id) === -1;
+        });
+        break;
+      default:
+        break;
+    }
+
+    if (!triggerIds.length) {
+      return;
+    }
+
+    triggerIds
+      .map(tId => state.current.scenario.triggers.find(findT => findT.id === tId))
+      .forEach(t => {
+      commit(MutationType.TOGGLE_TRIGGER, t);
+    });
+    // These are triggers caused by leaving or
   }
 };

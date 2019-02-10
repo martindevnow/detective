@@ -36,7 +36,9 @@ export class Person {
     }
 
     const enabledQuestions = questionsAboutTopic
-      .map(q => new Question(q, this.id))
+      .map(q => {
+        return new Question(q, this.id)
+      })
       .filter(q => q.isEnabled(triggers))
       .sort((a, b) => b.length - a.length);
 

@@ -13,9 +13,9 @@ export class Question {
     }
 
     this.topic = topic;
-    this.enablingTriggers = enablingTriggers;
-    this.disablingTriggers = disablingTriggers;
-    this.causesTriggers = causesTriggers;
+    this.enablingTriggers = enablingTriggers || [];
+    this.disablingTriggers = disablingTriggers || [];
+    this.causesTriggers = causesTriggers || [];
     this.body = body;
     this.personId = personId;
   }

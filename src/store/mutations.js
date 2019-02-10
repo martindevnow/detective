@@ -115,6 +115,7 @@ export default {
     const question = state.current.person.askAboutTopic(code);
     state.current = {
       ...state.current,
+      minutesPassed: (state.current.minutesPassed + 5),
       question,
     };
     state.current.interactions.push(InteractionType.QUESTION);
@@ -155,6 +156,17 @@ export default {
     state.current.interactionContent = [];
     // and index
     state.current.interactionContentIndex = 0;
+  },
+
+  [MutationType.TOGGLE_TRIGGER]: (state, trigger) => {
+    if (state.current.triggers.find(t => t.id === trigger.id)) {
+      return;
+    }
+    state.current.triggers.push({
+      ...trigger,
+      triggeredAt: state.current.minutesPassed,
+    })
   }
+  
 
 };

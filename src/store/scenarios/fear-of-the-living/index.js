@@ -30,5 +30,5 @@ export default {
       name: '', 
       givesItems: ['lnd1_i01'] },
   ],
-  triggers
+  triggers: triggers,
 };

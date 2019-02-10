@@ -1,6 +1,7 @@
 import { Location } from "../models/location";
 import * as PlayerStatus from '../enums/player-status';
 
+export const current = (state) => state.current;
 export const scenarios = (state) => state.scenarios;
 export const scenario = (state) => state.current.scenario;
 export const status = (state) => state.current.status;

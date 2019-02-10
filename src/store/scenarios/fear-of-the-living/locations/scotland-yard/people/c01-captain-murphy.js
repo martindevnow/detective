@@ -6,6 +6,7 @@ export default {
     {
       enablingTriggers: [],
       disablingTriggers: [],
+      causesTriggers: [],
       body: [
         `Thank god you're finally here. It's been a shit show since the mayor's daughter has been kidnapped.`, 
         `I've been calling your phone all morning. She was reported missing at 6:35AM. She could be anywhere by now.`,

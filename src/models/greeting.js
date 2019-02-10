@@ -1,12 +1,13 @@
 export class Greeting {
 
-  constructor({enablingTriggers, disablingTriggers, body}, personId) {
+  constructor({enablingTriggers, disablingTriggers, causesTriggers, body}, personId) {
     if (!body || !personId) {
       throw new Error('[Greeting] needs a body and a PersonID');
     }
 
-    this.enablingTriggers = enablingTriggers || null;
-    this.disablingTriggers = disablingTriggers || null;
+    this.enablingTriggers = enablingTriggers || [];
+    this.disablingTriggers = disablingTriggers || [];
+    this.causesTriggers = causesTriggers || [];
     this.body = body;
     this.personId = personId;
   }
