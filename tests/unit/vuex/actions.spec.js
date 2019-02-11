@@ -49,61 +49,78 @@ describe('actions', () => {
 
   it(ActionType.SCAN_QR_IDLE, () => {
     const commit = sinon.spy();
+    const dispatch = sinon.spy();
     const code_location = 'lnd1_l01';
     const code_item = 'lnd1_i01';
     const code_character = 'lnd1_c01';
 
-    actions[ActionType.SCAN_QR_IDLE]({commit}, code_location);
+    actions[ActionType.SCAN_QR_IDLE]({commit, dispatch}, code_location);
     expect(commit.args).to.deep.equal([
       [MutationType.TRAVEL_TO_LOCATION, code_location],
     ]);
 
     commit.resetHistory();
 
-    actions[ActionType.SCAN_QR_IDLE]({commit}, code_item);
+    actions[ActionType.SCAN_QR_IDLE]({commit, dispatch}, code_item);
     expect(commit.args).to.deep.equal([
       [MutationType.INVESTIGATE_OBJECT, code_item],
     ]);
 
     commit.resetHistory();
 
-    actions[ActionType.SCAN_QR_IDLE]({commit}, code_character);
+    actions[ActionType.SCAN_QR_IDLE]({commit, dispatch}, code_character);
     expect(commit.args).to.deep.equal([
       [MutationType.START_CONVERSATION, code_character],
+    ]);
+    expect(dispatch.args).to.deep.equal([
+      [ActionType.CHECK_FOR_TRIGGERS, { type: 'GREETING', code: code_character }],
     ]);
   });
   
   it(ActionType.SCAN_QR_QUESTIONING, () => {
     const commit = sinon.spy();
+    const dispatch = sinon.spy();
     const code_location = 'lnd1_l01';
     const code_item = 'lnd1_i01';
     const code_special = 'lnd1_s01';
     const code_character = 'lnd1_c01';
 
-    actions[ActionType.SCAN_QR_QUESTIONING]({commit}, code_location);
+    actions[ActionType.SCAN_QR_QUESTIONING]({commit, dispatch}, code_location);
     expect(commit.args).to.deep.equal([
       [MutationType.CONFIRM_TRAVEL_TO_LOCATION, code_location],
     ]);
 
     commit.resetHistory();
+    dispatch.resetHistory();
 
-    actions[ActionType.SCAN_QR_QUESTIONING]({commit}, code_item);
+    actions[ActionType.SCAN_QR_QUESTIONING]({commit, dispatch}, code_item);
     expect(commit.args).to.deep.equal([
       [MutationType.ASK_QUESTION, code_item],
     ]);
-
-    commit.resetHistory();
-
-    actions[ActionType.SCAN_QR_QUESTIONING]({commit}, code_character);
-    expect(commit.args).to.deep.equal([
-      [MutationType.ASK_QUESTION, code_character],
+    expect(dispatch.args).to.deep.equal([
+      [ActionType.CHECK_FOR_TRIGGERS, { type: 'QUESTION', code: code_item }],
     ]);
 
     commit.resetHistory();
+    dispatch.resetHistory();
 
-    actions[ActionType.SCAN_QR_QUESTIONING]({commit}, code_special);
+    actions[ActionType.SCAN_QR_QUESTIONING]({commit, dispatch}, code_character);
+    expect(commit.args).to.deep.equal([
+      [MutationType.ASK_QUESTION, code_character],
+    ]);
+    expect(dispatch.args).to.deep.equal([
+      [ActionType.CHECK_FOR_TRIGGERS, { type: 'QUESTION', code: code_character }],
+    ]);
+
+    commit.resetHistory();
+    dispatch.resetHistory();
+
+    actions[ActionType.SCAN_QR_QUESTIONING]({commit, dispatch}, code_special);
     expect(commit.args).to.deep.equal([
       [MutationType.ASK_QUESTION, code_special],
+    ]);
+    expect(dispatch.args).to.deep.equal([
+      [ActionType.CHECK_FOR_TRIGGERS, { type: 'QUESTION', code: code_special }],
     ]);
   });
   

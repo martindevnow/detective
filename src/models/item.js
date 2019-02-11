@@ -42,13 +42,14 @@
  */
 
 export class Item {
-  constructor({id, name, info, causesTriggers}) {
-    if (!id || !name || !info) {
-      throw new Error('[Item] requires an ID, Name and Info');
+  constructor({id, name, body, causesTriggers}) {
+    if (!id || !name || !body) {
+      console.log({id, name, body})
+      throw new Error('[Item] requires an ID, Name and body');
     }
     this.id = id;
     this.name = name;
-    this.info = info;
+    this.body = body;
     this.causesTriggers = causesTriggers;
   }
 }

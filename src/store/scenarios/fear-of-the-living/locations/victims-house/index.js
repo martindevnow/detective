@@ -8,12 +8,9 @@ export default {
   search: { enablingTriggers: [], disablingTriggers: [] }, 
   items: [
     { 
-      id: 'lnd1_i01', 
-      name: 'Chef Knife', 
-      causesTriggers: [
-
-      ],
-      info: `You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.`,
+      id: 'lnd1_i01',
+      name: 'Chef Knife',
+      body: [`You found a chefs knife next to the body. Maybe they can tell you more about it at the lab.`,],
     },
   ],
   people: [

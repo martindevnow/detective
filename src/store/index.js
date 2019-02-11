@@ -6,13 +6,15 @@ import actions from './actions';
 import mutations from './mutations';
 import * as getters from './getters';
 import { Scenario } from '../models/scenario';
+import VuexActionLogger from './logger';
 
 // const vuexPersist = new VuexPersist({
 //   key: 'my-app',
 //   storage: localStorage
 // })
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+Vue.use(VuexActionLogger(Vuex));
 
 const state = {
   current: initState.current,
