@@ -33,11 +33,11 @@ export default {
         commit(MutationType.TRAVEL_TO_LOCATION, code);
         break;
       case QRType.ITEM:
-        commit(MutationType.INVESTIGATE_OBJECT, code);
+        commit(MutationType.INVESTIGATE_ITEM, code);
         break;
       case QRType.PERSON:
         commit(MutationType.START_CONVERSATION, code);
-        dispatch(ActionType.CHECK_FOR_TRIGGERS, { type: 'GREETING', code });
+        dispatch(ActionType.CHECK_FOR_TRIGGERS, { type: 'GREETING' });
         break;
     }
   },
@@ -106,7 +106,6 @@ export default {
     switch (type) {
       // Trigger when greeting someone
       case "GREETING":
-        console.log(' > GREETING')
         // Check if the guest has any triggers that are toggled by greeting them
         greeting = state.current.person.getGreeting(existingTriggers);
         triggerIds = greeting.causesTriggers.filter(qt => {
@@ -115,7 +114,6 @@ export default {
         break;
       // Trigger when asking a question
       case "QUESTION":
-        console.log(' > QUESTION')
         // Check for the current person,
         question = state.current.person.askAboutTopic(code, existingTriggers);
         triggerIds = question.causesTriggers.filter(qt => {
@@ -133,9 +131,8 @@ export default {
     triggerIds
       .map(tId => state.current.scenario.triggers.find(findT => findT.id === tId))
       .forEach(t => {
-      console.log('Toggling - ', t);
-      commit(MutationType.TOGGLE_TRIGGER, t);
-    });
+        commit(MutationType.TOGGLE_TRIGGER, t);
+      });
     // Toggle the triggers in triggers Array.
     
 

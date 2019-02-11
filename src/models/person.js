@@ -18,7 +18,7 @@ export class Person {
    */
 
   constructor({id, name, fallback, questions, greetings}){
-    if (!id || !name || !fallback || !questions.length || !greetings.length) {
+    if (!id || !name || !fallback || !questions || !questions.length || !greetings || !greetings.length) {
       throw new Error('[Person] needs to have all fields defined when instantiated');
     }
 
@@ -30,14 +30,11 @@ export class Person {
   }
 
   askAboutTopic(topic, triggers){
-    // console.log(`[Person - ${this.id}] . askAboutTopic(${topic})`);
     const questionsAboutTopic = this.questions.filter(q => q.topic === topic);
     if (! questionsAboutTopic) {
       return fromFallback(topic, this);
     }
 
-    console.log('Searching Questions');
-    console.log(this.id);
     const enabledQuestions = questionsAboutTopic
       .map(q => new Question(q, this.id))
       .filter(q => q.isEnabled(triggers))

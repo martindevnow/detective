@@ -44,7 +44,6 @@
 export class Item {
   constructor({id, name, body, causesTriggers}) {
     if (!id || !name || !body) {
-      console.log({id, name, body})
       throw new Error('[Item] requires an ID, Name and body');
     }
     this.id = id;

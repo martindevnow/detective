@@ -55,8 +55,8 @@ export default {
     updateCurrentInteractions(state, location);
   },
 
-  [MutationType.INVESTIGATE_OBJECT]: (state, id) => {
-    // find object at location
+  [MutationType.INVESTIGATE_ITEM]: (state, id) => {
+    // find ITEM at location
     // if not, display a fall back message
     // otherwise,
     // display message and show found clue screen
@@ -127,8 +127,6 @@ export default {
   },
 
   [MutationType.NEXT_INTERACTION]: (state) => {
-    console.log('current interactions', state.current.interactions)
-
     // remove previous interaction
     state.current.interactions = state.current.interactions.slice(1);
     // reset index
@@ -140,8 +138,6 @@ export default {
     } else {
       state.current.interactionContent = state.current.interactions[0].body;
     }
-    console.log('remaining interactions', state.current.interactions);
-  
   },
 
   [MutationType.CONTINUE_INTERACTION]: (state) => {
