@@ -106,6 +106,8 @@ export default {
     switch (type) {
       // Trigger when greeting someone
       case "GREETING":
+        console.log(' > GREETING')
+        // Check if the guest has any triggers that are toggled by greeting them
         greeting = state.current.person.getGreeting(existingTriggers);
         triggerIds = greeting.causesTriggers.filter(qt => {
           return existingTriggers.indexOf(qt.id) === -1;
@@ -113,6 +115,8 @@ export default {
         break;
       // Trigger when asking a question
       case "QUESTION":
+        console.log(' > QUESTION')
+        // Check for the current person,
         question = state.current.person.askAboutTopic(code, existingTriggers);
         triggerIds = question.causesTriggers.filter(qt => {
           return existingTriggers.indexOf(qt.id) === -1;
@@ -129,8 +133,13 @@ export default {
     triggerIds
       .map(tId => state.current.scenario.triggers.find(findT => findT.id === tId))
       .forEach(t => {
+      console.log('Toggling - ', t);
       commit(MutationType.TOGGLE_TRIGGER, t);
     });
+    // Toggle the triggers in triggers Array.
+    
+
+    // 3. Movement triggers
     // These are triggers caused by leaving or
   }
 };

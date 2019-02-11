@@ -30,11 +30,14 @@ export class Person {
   }
 
   askAboutTopic(topic, triggers){
+    // console.log(`[Person - ${this.id}] . askAboutTopic(${topic})`);
     const questionsAboutTopic = this.questions.filter(q => q.topic === topic);
     if (! questionsAboutTopic) {
       return fromFallback(topic, this);
     }
 
+    console.log('Searching Questions');
+    console.log(this.id);
     const enabledQuestions = questionsAboutTopic
       .map(q => new Question(q, this.id))
       .filter(q => q.isEnabled(triggers))
