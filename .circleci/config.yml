@@ -155,18 +155,18 @@ workflows:
               only:
                 - develop
                 - master
-      # - acceptance-test:
-      #     requires:
-      #       - build-and-cache
-      #     filters:
-      #       branches:
-      #         only:
-      #           - develop
-      #           - master
+      - acceptance-test:
+          requires:
+            - build-and-cache
+          filters:
+            branches:
+              only:
+                - develop
+                - master
       - publish:
           requires:
             - build-and-cache
-            # - acceptance-test
+            - acceptance-test
           filters:
             branches:
               only:
