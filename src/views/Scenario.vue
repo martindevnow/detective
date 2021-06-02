@@ -1,74 +1,7 @@
 <template>
-  <div v-if="scenario">
-    
-    <h2>{{ scenario.name }}</h2>
-    <p>{{ scenario.introText }}</p>
-
-    <div class="startQuestioning" v-if="!isQuestioning">
-      <button @click="talkToPerson = true">Talk to Someone</button>
-      <qrcode-stream v-if="talkToPerson" @decode="onQuestionIndividual"></qrcode-stream>
-    </div>
-
-    <div class="isQuestioning" v-if="isQuestioning">
-      <p>{{ this.questioningText }}</p>
-      <button @click="askQuestion = true" v-if="!response">Ask About...</button>
-      <qrcode-stream v-if="askQuestion" @decode="onAskQuestion"></qrcode-stream>
-    </div>
-
-    <div class="response" v-if="response">
-      <p>{{ response }}</p>
-      <button @click="askQuestion = true">Ask a follow up question...</button>
-    </div>
-
-    <div class="survey" v-if="isSurveying">
-      <survey></survey>
-    </div>
-
-    <button @click="searchForClues()">Search for Clues</button>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import Survey from '../views/Survey.vue';
-
-export default {
-  components: {
-    Survey,
-  },
-  data() {
-    return {
-      talkToPerson: false,
-      askQuestion: false,
-      isQuestioning: false,
-      isSurveying: false,
-      questioningText: '',
-      response: '',
-    };
-  },
-   computed: {
-    ...mapGetters([
-      'scenario',
-      'location',
-    ]),
-  },
-  methods: {
-    onQuestionIndividual(txt) {
-      this.questioningText = `You are now questioning: ${txt}`;
-      this.isQuestioning = true;
-    },
-    onAskQuestion(txt) {
-      this.askQuestion = false;
-      this.response = `This is a hard coded response.. sorry, no info here. You asked about ${txt}`;
-    },
-    searchForClues() {
-      this.isSurveying = true;
-      this.$router.push({name: 'survey', params: { id: this.scenario.id, location: this.location.id }});
-      setTimeout(() => { 
-        this.isSurveying = false;
-        this.$router.back();
-      }, 15000);
-    }
-  }
-}
+export default {}
 </script>

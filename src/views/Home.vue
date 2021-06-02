@@ -4,8 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/scenarios">Scenarios</router-link>
     </div>
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+    <HelloWorld msg="Welcome, Detective!"/>
   </div>
 </template>
 

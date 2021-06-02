@@ -4,6 +4,7 @@ node_modules
 
 /tests/e2e/videos/
 /tests/e2e/screenshots/
+/results/*
 
 # local env files
 .env.local
@@ -22,3 +23,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+/certs

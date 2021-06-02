@@ -1,21 +1,21 @@
 <template>
   <div class="scenario-select">
-    <h1>Select a Scenario</h1>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/scenarios">Scenarios</router-link>
     </div>
+
+    <h1>Select a Scenario</h1>
     <div id="scenario-list">
-      <ul>
-        <li v-for="scenario in scenarios" :key="scenario.id" 
-            @click="select(scenario.id)">{{scenario.name}}</li>
-      </ul>
+        <button v-for="scenario in scenarios" :key="scenario.id" 
+            @click="select(scenario.id)">{{scenario.name}}</button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import * as ActionType from '../store/action-type';
 
 export default {
   computed: {
@@ -24,13 +24,10 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions([
-      'selectScenario',
-    ]),
     select (id) {
-      this.$store.dispatch('selectScenario', id);
+      this.$store.dispatch(ActionType.SELECT_SCENARIO, id);
       this.$router.push({name: 'scenario', params: { id }});
-    },
+    }
   }
 }
 </script>

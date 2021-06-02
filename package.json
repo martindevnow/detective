@@ -21,15 +21,17 @@
     "start:ci": "docker run --rm martindevnow/${npm_package_name}_ci:latest npm run test:lint-unit",
     "comment:e2e": "# === e2e Testing Command === #",
     "build:cypress": "IMAGE_NAME=${npm_package_name} TAG={$TAG:=latest} docker-compose build cypress",
-    "start:cypress": "IMAGE_NAME=${npm_package_name} TAG=${TAG:=latest} docker-compose run --rm cypress ./node_modules/.bin/cypress run"
+    "start:cypress": "IMAGE_NAME=${npm_package_name} TAG=${TAG:=latest} docker-compose up --abort-on-container-exit"
   },
   "dependencies": {
     "@egjs/view360": "^3.2.1-rc",
-    "three": "^0.100.0",
+    "hammerjs": "^2.0.8",
+    "three": "^0.125.0",
     "vue": "^2.5.21",
     "vue-qrcode-reader": "^1.3.3",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persist": "^2.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
@@ -41,6 +43,7 @@
     "chai": "^4.1.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "sinon": "^7.2.3",
     "vue-template-compiler": "^2.5.21"
   }
 }

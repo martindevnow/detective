@@ -18,17 +18,31 @@ export default {
       viewer: null,
     }
   },
+  created() {
+    window.addEventListener("resize", this.onWindowResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.onWindowResize);
+  },
   mounted() {
     const panoViewer = new PanoViewer(
       document.getElementById("surveyorPano"),
       {
-        image: "/images/pano3.jpg",
+        image: "/images/pano4.jpg",
         gyroMode: "VR",
       }
     );
     this.viewer = panoViewer;
 
     console.log(panoViewer.getImage())
+  },
+  methods: {
+    onWindowResize(e) {
+      this.viewer.updateViewportDimensions({
+        width: e.target.innerWidth, 
+        height: e.target.innerHeight
+      })
+    }
   }
 }
 
